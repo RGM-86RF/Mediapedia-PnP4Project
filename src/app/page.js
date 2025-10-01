@@ -1,6 +1,7 @@
 'use client'
 import Image from "next/image";
 import React, {useEffect , useState} from "react";
+import { useRouter } from "next/navigation";
 
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
@@ -8,6 +9,7 @@ const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 export default function Home() {
 
 const [query, setQuery] = useState('');
+const router = useRouter();
 const [movies, setMovies] = useState([]);
 
       useEffect(() => {
@@ -26,8 +28,11 @@ const [movies, setMovies] = useState([]);
   const handleSubmit = (e) => {
 
     e.preventDefault();
-    alert(`You searched for: ${query}`); 
-   
+     console.log('Query:', query);
+    if(query.trim()) {
+      router.push(`/search?q=${encodeURIComponent(query)}`);
+    }
+
   };
 
    
@@ -49,7 +54,7 @@ const [movies, setMovies] = useState([]);
         </div>
       </header>
       <section className="text-black px-20 py-40">
-       <h1 class="point">Welcome to Mediapedia</h1> 
+       <h1 className="point">Welcome to Mediapedia</h1> 
         
       </section>
 
