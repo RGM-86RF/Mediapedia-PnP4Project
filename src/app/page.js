@@ -2,6 +2,7 @@
 import Image from "next/image";
 import React, {useEffect , useState} from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
@@ -66,6 +67,7 @@ const [movies, setMovies] = useState([]);
               <div className="flex space-x-4 flex-nowrap"> 
                 {movies.map((movie) => (
                   <div key={movie.id} className="flex-shrink-0 w-48 text-center">
+              <Link href={`./Media/${movie.id}`} key={movie.id}>
               <img
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
               alt={movie.title}
@@ -73,6 +75,7 @@ const [movies, setMovies] = useState([]);
               height={288}
               className="rounded shadow mx-auto"
               />
+              </Link>
               <h2 className="text-lg font-bold mb-2">{movie.title}</h2>
               </div>
 

@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY
 
@@ -14,6 +15,7 @@ async function fetchSearchResults(query){
 }
 
 export default async function searchResults({searchParams}) {
+    
     const query = searchParams?.q || '';
     const results = await fetchSearchResults(query);
 
@@ -33,6 +35,7 @@ export default async function searchResults({searchParams}) {
             results.map((movie) => (
                 <div key={movie.id} className="text-black mb-2">
                     {movie.title}
+                     <Link href={`./Media/${movie.id}`} key={movie.id}>
                      <img
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
               alt={movie.title}
@@ -40,12 +43,13 @@ export default async function searchResults({searchParams}) {
               height={288}
               className="rounded shadow mx-auto"
               />
-        
+                     </Link>
                     </div>
             ))
         ) : (
             <p>No Results found.</p>
         )}
+    
         </div>
         <footer> 
         <p>Mediapedia -Student Project- by Antonio Gage</p>
