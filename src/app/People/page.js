@@ -79,7 +79,7 @@ const [popPeople, setPopPeople] = useState([]);
             <div className="overflow-x-auto"
             style={{ width: '1400px' }}> Popular:
               <div className="flex space-x-4 flex-nowrap"> 
-                {popPeople.map((peeps) => (
+                {popPeople.filter((peeps) => !peeps.adult).map((peeps) => (
                   <div key={peeps.id} className="flex-shrink-0 w-48 text-center">
               <Link href={`./Peoples/${peeps.id}`} key={peeps.id}>
               <img

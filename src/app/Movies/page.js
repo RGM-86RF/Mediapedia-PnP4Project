@@ -90,7 +90,7 @@ const [topMovies, setTopMovies] = useState([]);
             <div className="overflow-x-auto"
             style={{ width: '1400px' }}> Popular:
               <div className="flex space-x-4 flex-nowrap"> 
-                {popMovies.map((movie) => (
+                {popMovies.filter((movie) => !movie.adult).map((movie) => (
                   <div key={movie.id} className="flex-shrink-0 w-48 text-center">
               <Link href={`./Media/${movie.id}`} key={movie.id}>
               <img
@@ -118,7 +118,7 @@ const [topMovies, setTopMovies] = useState([]);
             <div className="overflow-x-auto"
             style={{ width: '1400px' }}> Top Rated:
               <div className="flex space-x-4 flex-nowrap"> 
-                {topMovies.map((movies) => (
+                {topMovies.filter((movies) => !movies.adult).map((movies) => (
                   <div key={movies.id} className="flex-shrink-0 w-48 text-center">
               <Link href={`./Media/${movies.id}`} key={movies.id}>
               <img
