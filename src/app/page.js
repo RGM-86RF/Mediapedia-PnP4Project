@@ -38,6 +38,10 @@ const [movies, setMovies] = useState([]);
   const handleDropDown = () => {
     setMenuOpen(!isMenuOpen);
   };
+
+  const handleMore = () => {
+
+  };
    
   return (
     <div className="flex flex-col min-h-screen">
@@ -91,7 +95,15 @@ const [movies, setMovies] = useState([]);
               </div>
 
                 ))}
+                <Link href={""}>
+                <div className="flex-shrink-0 w-48 h-[288px] text-lime-300 bg-black rounded shadow text-center flex items-center justify-center">
+                  Show More
+                  </div>
+                </Link>
+
+
                 </div>
+                
           </div>
         
       </main>
