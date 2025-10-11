@@ -14,18 +14,18 @@ export default function Movieinfo() {
     const{id} = useParams();
     const [query, setQuery] = useState('');
     const [isMenuOpen, setMenuOpen] = useState(false);
-    const [tv,setTV] = useState(null);
+    const [person,setPerson] = useState(null);
     const [loading, setloading] = useState(false);
-    const [providers, setProviders] = useState(null);
+    
     
     useEffect(() => {
         if(!id) return;
 
-    async function getShow(){
+    async function getPerson(){
     try{    
-    const res = await fetch(`https://api.themoviedb.org/3/tv/${id}?api_key=${API_KEY}`);
+    const res = await fetch(`https://api.themoviedb.org/3/person/${id}?api_key=${API_KEY}`);
      const data = await res.json();
-     setTV(data);
+     setPerson(data);
      setloading(false);
     } catch (err){
         console.error('Error fetching show: ', err);
@@ -33,24 +33,11 @@ export default function Movieinfo() {
     }
     }
 
-    getShow();
+    getPerson();
     }, [id]);
 
-     useEffect(() => {
-                const fetchProviders = async () => {
-                  try {
-                    const response1 = await fetch(`https://api.themoviedb.org/3/tv/${id}/watch/providers?api_key=${API_KEY}`);
-                    const data1 = await response1.json();
-                    setProviders(data1.results); 
-                  } catch (error) {
-                    console.error('Error fetching movie:', error);
-                  }
-                };
-                fetchProviders();
-              }, []);
-
     
-    if(loading || !tv) {
+    if(loading || !person) {
         return <div className="p-8 text-black">Loading...</div>
     }
 
@@ -95,37 +82,19 @@ export default function Movieinfo() {
         </header>
 
         <main className="mt-20 px-6 pb-10 flex-grow">
-        <div key={tv.id} className="p-10 w-250 text-black ">
-            <h1 className="text-lg font-bold mb-2">{tv.name}</h1>
+        <div key={person.id} className="p-10 w-250 text-black ">
+            <h1 className="text-lg font-bold mb-2">{person.name}</h1>
              <img
-              src={`https://image.tmdb.org/t/p/w500${tv.poster_path}`}
-              alt={tv.name}
+              src={`https://image.tmdb.org/t/p/w500${person.profile_path}`}
+              alt={person.name}
               width={250}
               height={550}
               className="rounded shadow"
               />
               <p className="mt-4 text-lg">Overview:</p>
-              <p className="  text-lg">{tv.overview}</p>
+              <p className="  text-lg">{person.biography}</p>
 
-              <div className="mt-8">
-                <h2 className="text-1 font-bold mb-4">Where to watch</h2>
-                {providers && providers.US && providers.US.flatrate ? (
-                <ul>
-                    {providers.US.flatrate.map((provider) => (
-                        <li key={provider.provider_id} className="mb-2 flex items-center space-x-2">
-                          <img 
-                          src={`https://image.tmdb.org/t/p/w45${provider.logo_path}`}
-                          alt={provider.provider_name}
-                          className="inline-block"
-                          />
-                          <span>{provider.provider_name}</span>
-                        </li>
-                    ))}
-                </ul>
-                ) : (
-                  <p>No streaming providers available</p>
-                )}
-              </div>
+             
               
 
        </div>

@@ -17,6 +17,9 @@ export default function searchResults(){
     const router = useRouter();
     const [loading, setloading] = useState(false);
     const [isMenuOpen, setMenuOpen] = useState(false);
+    const [sortOpt, setSortOpt] = useState('');
+    const [mediaFilter, setMediaFilter] = useState('all');
+
     
 
     useEffect(() => {
@@ -67,6 +70,28 @@ export default function searchResults(){
     setMenuOpen(!isMenuOpen);
   };
     
+  const sortedResults = [...results].sort((a,b) => {
+    if (sortOpt === 'popularity'){
+      return b.popularity - a.popularity;
+    }
+    if(sortOpt === 'release_date_desc') {
+      const dateA = new Date(a.release_date || a.first_air_date || '1900-01-01');
+      const dateB = new Date(b.release_date || b.first_air_date || '1900-01-01');
+      return dateB - dateA;
+    }
+    if(sortOpt === 'release_date_aesc') {
+      const dateA = new Date(a.release_date || a.first_air_date || '1900-01-01');
+      const dateB = new Date(b.release_date || b.first_air_date || '1900-01-01');
+      return dateA - dateB;
+    }
+    return 0;
+  });
+
+
+  const filteredResults = sortedResults.filter(item => {
+    if(mediaFilter === 'all') return true;
+    return item.media_type === mediaFilter;
+  });
    
 
     return (
@@ -99,7 +124,34 @@ export default function searchResults(){
         <main className="flex">
             <div className="w-[25%] pr-4 border-r border-gray-400 text-black">
                 <h2 className="text-lg font-semibold mb-2">Sort & Filter</h2>
-   
+                <div className="mb-4">
+                  <label className="block font-medium mb-1">Sort By:</label>
+                  <select
+                    value={sortOpt}
+                    onChange={(e) => setSortOpt(e.target.value)}
+                    className="w-full p-2 border border-gray-400 rounded"
+                    >
+                      <option value="">Default</option>
+                      <option value="popularity">Popularity</option>
+                      <option value="release_date_desc">Release Date Descending</option>
+                      <option value="release_date_aesc">Release Date Asecending</option>
+                    </select>
+                </div>
+
+                <div className="mb-4">
+                  <label className="block font-medium mb-1">Filter By:</label>
+                  <select
+                    value={mediaFilter}
+                    onChange={(e) => setMediaFilter(e.target.value)}
+                    className="w-full p-2 border border-gray-400 rounded"
+                    >
+                      <option value="all">All</option>
+                      <option value="movie">Movies</option>
+                      <option value="tv">TV</option>
+                      <option value="person">People</option>
+                    </select>
+                </div>
+
             </div>
 
 
@@ -109,7 +161,7 @@ export default function searchResults(){
             {!loading && results.length === 0 && <p>No results found.</p>}
 
            <div className="grid grid-cols-3 gap-4">
-            {results.filter((item) => item.media_type !== 'movie' || !item.adult).map((item) => {
+            {filteredResults.map((item) => {
                 const isMovie = item.media_type === 'movie';
                 const isTV = item.media_type === 'tv';
                 const isPerson = item.media_type === 'person';

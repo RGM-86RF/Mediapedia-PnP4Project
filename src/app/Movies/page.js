@@ -105,7 +105,7 @@ const [topMovies, setTopMovies] = useState([]);
               </div>
 
                 ))}
-                <Link href={""}>
+                <Link href={"/MoreMovie/MorePopular"}>
                 <div className="flex-shrink-0 w-48 h-[288px] text-lime-300 bg-black rounded shadow text-center flex items-center justify-center">
                   Show More
                   </div>
@@ -138,7 +138,7 @@ const [topMovies, setTopMovies] = useState([]);
               </div>
 
                 ))}
-                <Link href={""}>
+                <Link href={"/MoreMovie/MoreTopRated"}>
                 <div className="flex-shrink-0 w-48 h-[288px] text-lime-300 bg-black rounded shadow text-center flex items-center justify-center">
                   Show More
                   </div>

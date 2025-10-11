@@ -81,7 +81,7 @@ const [popPeople, setPopPeople] = useState([]);
               <div className="flex space-x-4 flex-nowrap"> 
                 {popPeople.filter((peeps) => !peeps.adult).map((peeps) => (
                   <div key={peeps.id} className="flex-shrink-0 w-48 text-center">
-              <Link href={`./Peoples/${peeps.id}`} key={peeps.id}>
+              <Link href={`./Person/${peeps.id}`} key={peeps.id}>
               <img
               src={`https://image.tmdb.org/t/p/w500${peeps.profile_path}`}
               alt={peeps.name}
