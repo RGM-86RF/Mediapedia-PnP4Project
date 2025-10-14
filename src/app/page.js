@@ -42,6 +42,8 @@ const [movies, setMovies] = useState([]);
   const handleMore = () => {
 
   };
+
+  const randomMovie = movies[Math.floor(Math.random() * movies.length)];
    
   return (
     <div className="flex flex-col min-h-screen">
@@ -69,26 +71,26 @@ const [movies, setMovies] = useState([]);
 
         </div>
       </header>
-      <section className="text-black px-20 py-40">
+      <section className="text-black px-20 py-40 bg-[#DDF6D2]">
        <h1 className="point">Welcome to Mediapedia</h1> 
         
       </section>
 
-    <section>
+    <section className="bg-[#DDF6D2]">
     <div className="text-black font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-            <div className="overflow-x-auto"
+      <main className="flex flex-col gap-[30px] row-start-2 items-center sm:items-start">
+            <div className="overflow-x-auto bg-gray-300 rounded shadow"
             style={{ width: '1400px' }}>Now Playing: 
-              <div className="flex space-x-4 flex-nowrap"> 
+              <div className="flex space-x-4 flex-nowrap bg-gray-300 rounded shadow"> 
                 {movies.map((movie) => (
-                  <div key={movie.id} className="flex-shrink-0 w-48 text-center">
+                  <div key={movie.id} className="flex-shrink-0 w-48 text-center bg-gray-300 rounded shadow">
               <Link href={`./Media/${movie.id}`} key={movie.id}>
               <img
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
               alt={movie.title}
               width={192}
               height={288}
-              className="rounded shadow mx-auto"
+              className="rounded shadow mx-auto bg-gray-300 "
               />
               </Link>
               <h2 className="text-lg font-bold mb-2">{movie.title}</h2>

@@ -54,7 +54,7 @@ const [topMovies, setTopMovies] = useState([]);
   };
    
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-[#DDF6D2]">
     <header className="flex items-center justify-between px-4 py-2 bg-[#333333]">
         <div className="text-lime-300 font-bold text-x1"><a href="http://localhost:3000/">Mediapedia</a></div>
         <form onSubmit={handleSubmit} className="flex-1 mx-4">
@@ -86,12 +86,12 @@ const [topMovies, setTopMovies] = useState([]);
 
     <section> 
     <div className="text-black font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-4 pb-20 gap-8 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
+      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start bg-gray-300 rounded shadow">
             <div className="overflow-x-auto"
             style={{ width: '1400px' }}> Popular:
-              <div className="flex space-x-4 flex-nowrap"> 
+              <div className="flex space-x-4 flex-nowrap bg-gray-300 rounded shadow"> 
                 {popMovies.filter((movie) => !movie.adult).map((movie) => (
-                  <div key={movie.id} className="flex-shrink-0 w-48 text-center">
+                  <div key={movie.id} className="flex-shrink-0 w-48 text-center bg-gray-300 rounded shadow">
               <Link href={`./Media/${movie.id}`} key={movie.id}>
               <img
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -120,11 +120,11 @@ const [topMovies, setTopMovies] = useState([]);
       <section>
     <div className="text-black font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-4 pb-20 gap-8 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-            <div className="overflow-x-auto"
+            <div className="overflow-x-auto bg-gray-300 rounded shadow"
             style={{ width: '1400px' }}> Top Rated:
-              <div className="flex space-x-4 flex-nowrap"> 
+              <div className="flex space-x-4 flex-nowrap bg-gray-300 rounded shadow"> 
                 {topMovies.filter((movies) => !movies.adult).map((movies) => (
-                  <div key={movies.id} className="flex-shrink-0 w-48 text-center">
+                  <div key={movies.id} className="flex-shrink-0 w-48 text-center bg-gray-300 rounded shadow">
               <Link href={`./Media/${movies.id}`} key={movies.id}>
               <img
               src={`https://image.tmdb.org/t/p/w500${movies.poster_path}`}

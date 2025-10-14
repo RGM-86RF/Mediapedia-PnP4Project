@@ -54,7 +54,7 @@ const [topTV, setTopTV] = useState([]);
   };
    
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-[#DDF6D2]">
     <header className="flex items-center justify-between px-4 py-2 bg-[#333333]">
         <div className="text-lime-300 font-bold text-x1"><a href="http://localhost:3000/">Mediapedia</a></div>
         <form onSubmit={handleSubmit} className="flex-1 mx-4">
@@ -87,7 +87,7 @@ const [topTV, setTopTV] = useState([]);
     <section> 
     <div className="text-black font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-4 pb-20 gap-8 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-            <div className="overflow-x-auto"
+            <div className="overflow-x-auto  bg-gray-300 rounded shadow"
             style={{ width: '1400px' }}> Popular:
               <div className="flex space-x-4 flex-nowrap"> 
                 {popTV.map((tv) => (
@@ -101,7 +101,7 @@ const [topTV, setTopTV] = useState([]);
               className="rounded shadow mx-auto"
               />
               </Link>
-              <h2 className="text-lg font-bold mb-2">{tv.name}</h2>
+              <h2 className="text-lg font-bold mb-2 ">{tv.name}</h2>
               </div>
 
                 ))}
@@ -120,7 +120,7 @@ const [topTV, setTopTV] = useState([]);
       <section>
     <div className="text-black font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-4 pb-20 gap-8 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-            <div className="overflow-x-auto"
+            <div className="overflow-x-auto  bg-gray-300 rounded shadow"
             style={{ width: '1400px' }}> Top Rated:
               <div className="flex space-x-4 flex-nowrap"> 
                 {topTV.map((Tv) => (

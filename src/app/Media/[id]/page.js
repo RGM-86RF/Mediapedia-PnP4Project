@@ -101,7 +101,7 @@ export default function Movieinfo() {
           }, [id]);
 
            useEffect(() => {
-            const fetchCrew = async () => {
+            const fetchRec = async () => {
               try {
                 const recResponse = await fetch(`https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${API_KEY}`);
                 const recData = await recResponse.json();
@@ -111,7 +111,7 @@ export default function Movieinfo() {
               }
             };
             if(id){
-            fetchCrew();
+            fetchRec();
             }
           }, [id]);
 
@@ -138,7 +138,7 @@ export default function Movieinfo() {
   };
 
     return (
-         <div className="flex flex-col min-h-screen">
+         <div className="flex flex-col min-h-screen bg-[#DDF6D2]">
         <header className="flex items-center justify-between px-4 py-2 bg-[#333333]">
             <div className="text-lime-300 font-bold text-x1"><a href="http://localhost:3000/">Mediapedia</a></div>
            <form onSubmit={handleSubmit} className="flex-1 mx-4">
@@ -163,26 +163,26 @@ export default function Movieinfo() {
             </div>
         </header>
 
-        <main className="mt-20 px-6 pb-10 flex-grow">
-        <div key={movie.id} className="p-10 w-250 text-black ">
-            <h1 className="text-lg font-bold mb-2">{movie.title}</h1>
-            <div className="flex flex-col lg:flex-row gap-6">
-            <div className="flex-shrink-0">
+        <main className="mt-20 px-6 pb-10 flex-grow bg-[#DDF6D2] w-full">
+        <div key={movie.id} className="p-10 w-250 text-black bg-[#DDF6D2] w-auto">
+            <h1 className="text-lg font-bold mb-2 px-40">{movie.title}</h1>
+            <div className="flex flex-col lg:flex-row gap-6 bg-[#DDF6D2]">
+            <div className="flex-shrink-0 px-40">
              <img
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
               alt={movie.title}
               width={250}
               height={550}
-              className="rounded shadow"
+              className="rounded shadow "
               />
               </div>
               
               {trailer ? (
                 <div className="flex-grow">
-                  <div className="aspect-w-16 aspect-h-9 w-full">
+                  <div className="aspect-w-16 aspect-h-10 ">
                     <iframe
-                      width="100%"
-                      height="315"
+                      width="75%"
+                      height="375"
                       src={`https://www.youtube.com/embed/${trailer.key}`}
                       title={trailer.name}
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -196,22 +196,49 @@ export default function Movieinfo() {
               </div>
 
 
-
-
-              <p className="mt-4  text-lg"> Runtime: {movie.runtime} mins</p>
+              <div className="flex flex-col lg:flex-row gap-6 mt-6 w-full max-w-screen-xl mx-auto">
+              <div className=" flex-grow bg-gray-300 rounded shadow mx-auto">
+              <p className="mt-4 text-lg font-bold text-decleration-line: underline">{movie.title}</p>
+              <p className="mt-4  text-lg">Overview:</p>
               <p className="mt-4  text-lg">{movie.overview}</p>
-              <p className="mt-4  text-lg">Budget:</p>
-              <p className="  text-lg">${movie.budget}</p>
-              <p className="mt-4  text-lg">Revenue:</p>
+              <p className="mt-4  text-lg font-bold text-decleration-line: underline">Release Date:</p>
+              <p className="mt-4  text-lg">{movie.release_date}</p>
+              <p className="mt-4  text-lg"> Runtime: {movie.runtime} mins</p>
+              <p className="mt-4  text-lg font-bold text-decleration-line: underline">Budget:</p>
+              <p className="mt-4 text-lg">${movie.budget}</p>
+              <p className="mt-4  text-lg font-bold text-decleration-line: underline">Revenue:</p>
               <p className="mt-4  text-lg">${movie.revenue}</p>
+              
+
+              </div>
+                <div className="w-full lg:max-w-sm xl:max-w-xs bg-gray-300 rounded shadow p-6">
+                  <h2 className="text-1 font-bold mb-4">Where to watch</h2>
+                    {providers && providers.US && providers.US.flatrate ? (
+                      <ul>
+                      {providers.US.flatrate.map((provider) => (
+                        <li key={provider.provider_id} className="mb-2 flex items-center space-x-2">
+                          <img 
+                          src={`https://image.tmdb.org/t/p/w45${provider.logo_path}`}
+                          alt={provider.provider_name}
+                          className="inline-block"
+                          />
+                          <span>{provider.provider_name}</span>
+                        </li>
+                          ))}
+                      </ul>
+                      ) : (
+                        <p>No streaming providers available</p>
+                       )}
+                      </div>
+
+                      </div>
 
 
-
-              <div className="mt-8">
-                <h2 className="text-1 font-bold mb-4">Cast</h2>
-                <div className="flex space-x-4 overflow-x-auto">
+              <div className="mt-8 bg-gray-300 rounded shadow">
+                <h2 className="text-1 font-bold mb-4 ">Cast</h2>
+                <div className="flex space-x-4 overflow-x-auto ">
                {cast.map((peeps) => (
-                  <div key={`cast-${peeps.id}-${peeps.job}`} className="flex-shrink-0 w-48 text-center">
+                  <div key={`cast-${peeps.id}-${peeps.job}`} className="flex-shrink-0 w-48 text-center ">
               <Link href={`../Person/${peeps.id}`} key={peeps.id}>
               <img
               src={`https://image.tmdb.org/t/p/w500${peeps.profile_path}`}
@@ -229,11 +256,11 @@ export default function Movieinfo() {
                 </div>
                 </div>
 
-                 <div className="mt-8">
+                 <div className="mt-8 bg-gray-300 rounded shadow">
                 <h2 className="text-1 font-bold mb-4">Cast</h2>
                 <div className="flex space-x-4 overflow-x-auto">
                {crew.map((peep) => (
-                  <div key={`crew-${peep.id}-${peep.job}`} className="flex-shrink-0 w-48 text-center">
+                  <div key={`crew-${peep.id}-${peep.job}`} className="flex-shrink-0 w-48 text-center ">
               <Link href={`../Person/${peep.id}`} key={peep.id}>
               <img
               src={`https://image.tmdb.org/t/p/w500${peep.profile_path}`}
@@ -252,27 +279,9 @@ export default function Movieinfo() {
                 </div>
               
               
-              <div className="mt-8">
-                <h2 className="text-1 font-bold mb-4">Where to watch</h2>
-                {providers && providers.US && providers.US.flatrate ? (
-                <ul>
-                    {providers.US.flatrate.map((provider) => (
-                        <li key={provider.provider_id} className="mb-2 flex items-center space-x-2">
-                          <img 
-                          src={`https://image.tmdb.org/t/p/w45${provider.logo_path}`}
-                          alt={provider.provider_name}
-                          className="inline-block"
-                          />
-                          <span>{provider.provider_name}</span>
-                        </li>
-                    ))}
-                </ul>
-                ) : (
-                  <p>No streaming providers available</p>
-                )}
-              </div>
+              
 
-              <div className="mt-8">
+              <div className="mt-8 bg-gray-300 rounded shadow">
                 <h2 className="text-1 font-bold mb-4">Recomendations</h2>
                 <div className="flex space-x-4 overflow-x-auto">
                {rec.map((recs) => (

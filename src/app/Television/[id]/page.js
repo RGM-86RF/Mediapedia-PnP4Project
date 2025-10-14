@@ -17,6 +17,10 @@ export default function Movieinfo() {
     const [tv,setTV] = useState(null);
     const [loading, setloading] = useState(false);
     const [providers, setProviders] = useState(null);
+    const [video, setVideo] = useState([]);
+    const [cast, setCast] = useState([]);
+    const [crew, setCrew] = useState([]);
+    const [rec, setRecommend] = useState([]);
     
     useEffect(() => {
         if(!id) return;
@@ -49,6 +53,67 @@ export default function Movieinfo() {
                 fetchProviders();
               }, []);
 
+
+    useEffect(() => {
+                const fetchVideo = async () => {
+                  try {
+                    const vidResponse = await fetch(`https://api.themoviedb.org/3/tv/${id}/videos?api_key=${API_KEY}`);
+                    const vidData = await vidResponse.json();
+                    setVideo(vidData.results); 
+                  } catch (error) {
+                    console.error('Error fetching trailer:', error);
+                  }
+                };
+                if(id){
+                fetchVideo();
+                }
+              }, [id]);
+
+               useEffect(() => {
+                          const fetchCast = async () => {
+                            try {
+                              const castResponse = await fetch(`https://api.themoviedb.org/3/tv/${id}/credits?api_key=${API_KEY}`);
+                              const castData = await castResponse.json();
+                              setCast(castData.cast); 
+                            } catch (error) {
+                              console.error('Error fetching trailer:', error);
+                            }
+                          };
+                          if(id){
+                          fetchCast();
+                          }
+                        }, [id]);
+              
+                         useEffect(() => {
+                          const fetchCrew = async () => {
+                            try {
+                              const crewResponse = await fetch(`https://api.themoviedb.org/3/tv/${id}/credits?api_key=${API_KEY}`);
+                              const crewData = await crewResponse.json();
+                              setCrew(crewData.crew); 
+                            } catch (error) {
+                              console.error('Error fetching trailer:', error);
+                            }
+                          };
+                          if(id){
+                          fetchCrew();
+                          }
+                        }, [id]);
+
+                        useEffect(() => {
+                                    const fetchRec = async () => {
+                                      try {
+                                        const recResponse = await fetch(`https://api.themoviedb.org/3/tv/${id}/recommendations?api_key=${API_KEY}`);
+                                        const recData = await recResponse.json();
+                                        setRecommend(recData.results); 
+                                      } catch (error) {
+                                        console.error('Error fetching trailer:', error);
+                                      }
+                                    };
+                                    if(id){
+                                    fetchRec();
+                                    }
+                                  }, [id]);
+
     
     if(loading || !tv) {
         return <div className="p-8 text-black">Loading...</div>
@@ -68,8 +133,13 @@ export default function Movieinfo() {
     setMenuOpen(!isMenuOpen);
   };
 
+
+  const trailer = video.find((vid) => vid.type === "Trailer" && vid.official == true &&vid.site === "YouTube");
+
+
+
     return (
-         <div className="flex flex-col min-h-screen">
+         <div className="flex flex-col min-h-screen bg-[#DDF6D2]">
         <header className="flex items-center justify-between px-4 py-2 bg-[#333333]">
             <div className="text-lime-300 font-bold text-x1"><a href="http://localhost:3000/">Mediapedia</a></div>
            
@@ -94,9 +164,11 @@ export default function Movieinfo() {
             </div>
         </header>
 
-        <main className="mt-20 px-6 pb-10 flex-grow">
-        <div key={tv.id} className="p-10 w-250 text-black ">
-            <h1 className="text-lg font-bold mb-2">{tv.name}</h1>
+        <main className="mt-20 px-6 pb-10 flex-grow w-full ">
+        <div key={tv.id} className="p-10 w-250 text-black w-auto ">
+            <h1 className="text-lg font-bold mb-2 px-40">{tv.name}</h1>
+            <div className="flex flex-col lg:flex-row gap-6 bg-[#DDF6D2]">
+            <div className="flex-shrink-0 px-40 ">
              <img
               src={`https://image.tmdb.org/t/p/w500${tv.poster_path}`}
               alt={tv.name}
@@ -104,14 +176,41 @@ export default function Movieinfo() {
               height={550}
               className="rounded shadow"
               />
+              </div>
+             {trailer ? (
+                <div className="flex-grow">
+                  <div className="aspect-w-16 aspect-h-10 ">
+                    <iframe
+                      width="75%"
+                      height="375"
+                      src={`https://www.youtube.com/embed/${trailer.key}`}
+                      title={trailer.name}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      ></iframe>
+                  </div>
+                  </div>
+              ) :( 
+                <p className="text-black">No trailer available</p>
+              )}
+              </div>
+              <div className="flex flex-col lg:flex-row gap-6 mt-6 w-full max-w-screen-xl mx-auto">
+              <div className=" flex-grow bg-gray-300 rounded shadow mx-auto">
               <p className="mt-4 text-lg">Overview:</p>
               <p className="  text-lg">{tv.overview}</p>
+              <p className="mt-4 text-lg">Number of Episodes:</p>
+              <p className="  text-lg">{tv.number_of_episodes}</p>
+              <p className="mt-4 text-lg">Number of Seasons:</p>
+              <p className="  text-lg">{tv.number_of_seasons}</p>
+              <p className="mt-4 text-lg">Type of Show:</p>
+              <p className="  text-lg">{tv.type}</p>
 
-              <div className="mt-8">
-                <h2 className="text-1 font-bold mb-4">Where to watch</h2>
-                {providers && providers.US && providers.US.flatrate ? (
-                <ul>
-                    {providers.US.flatrate.map((provider) => (
+              </div>
+              <div className="w-full lg:max-w-sm xl:max-w-xs bg-gray-300 rounded shadow p-6">
+                  <h2 className="text-1 font-bold mb-4">Where to watch</h2>
+                    {providers && providers.US && providers.US.flatrate ? (
+                      <ul>
+                      {providers.US.flatrate.map((provider) => (
                         <li key={provider.provider_id} className="mb-2 flex items-center space-x-2">
                           <img 
                           src={`https://image.tmdb.org/t/p/w45${provider.logo_path}`}
@@ -120,12 +219,82 @@ export default function Movieinfo() {
                           />
                           <span>{provider.provider_name}</span>
                         </li>
-                    ))}
-                </ul>
-                ) : (
-                  <p>No streaming providers available</p>
-                )}
+                          ))}
+                      </ul>
+                      ) : (
+                        <p>No streaming providers available</p>
+                       )}
+                      </div>
               </div>
+
+              <div className="mt-8 bg-gray-300 rounded shadow">
+                <h2 className="text-1 font-bold mb-4">Cast</h2>
+                <div className="flex space-x-4 overflow-x-auto">
+               {cast.map((peeps) => (
+                  <div key={`cast-${peeps.id}-${peeps.job}`} className="flex-shrink-0 w-48 text-center">
+              <Link href={`../Person/${peeps.id}`} key={peeps.id}>
+              <img
+              src={`https://image.tmdb.org/t/p/w500${peeps.profile_path}`}
+              alt={peeps.name}
+              width={192}
+              height={288}
+              className="rounded shadow mx-auto"
+              />
+              </Link>
+              <h2 className="text-lg font-bold mb-2">{peeps.name}</h2>
+              <p className="text-sm italic text-gray-600">{peeps.character}</p>
+              </div>
+
+                ))}
+                </div>
+                </div>
+
+                 <div className="mt-8 bg-gray-300 rounded shadow">
+                <h2 className="text-1 font-bold mb-4">Cast</h2>
+                <div className="flex space-x-4 overflow-x-auto">
+               {crew.map((peep) => (
+                  <div key={`crew-${peep.id}-${peep.job}`} className="flex-shrink-0 w-48 text-center ">
+              <Link href={`../Person/${peep.id}`} key={peep.id}>
+              <img
+              src={`https://image.tmdb.org/t/p/w500${peep.profile_path}`}
+              alt={peep.name}
+              width={192}
+              height={288}
+              className="rounded shadow mx-auto"
+              />
+              </Link>
+              <h2 className="text-lg font-bold mb-2">{peep.name}</h2>
+              <p className="text-sm italic text-gray-600">{peep.job}</p>
+              </div>
+
+                ))}
+                </div>
+                </div>
+              
+
+              
+
+              <div className="mt-8 bg-gray-300 rounded shadow">
+                <h2 className="text-1 font-bold mb-4">Recomendations</h2>
+                <div className="flex space-x-4 overflow-x-auto">
+               {rec.map((recs) => (
+                  <div key={recs.id} className="flex-shrink-0 w-48 text-center">
+              <Link href={`/Television/${recs.id}`} key={recs.id}>
+              <img
+              src={`https://image.tmdb.org/t/p/w500${recs.poster_path}`}
+              alt={recs.title}
+              width={192}
+              height={288}
+              className="rounded shadow mx-auto"
+              />
+              </Link>
+              <h2 className="text-lg font-bold mb-2">{recs.title}</h2>
+              
+              </div>
+
+                ))}
+                </div>
+                </div>
               
 
        </div>

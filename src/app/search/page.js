@@ -121,7 +121,7 @@ export default function searchResults(){
 
 
 
-        <main className="flex">
+        <main className="flex bg-[#DDF6D2] ">
             <div className="w-[25%] pr-4 border-r border-gray-400 text-black">
                 <h2 className="text-lg font-semibold mb-2">Sort & Filter</h2>
                 <div className="mb-4">
@@ -178,7 +178,7 @@ export default function searchResults(){
 
                  const linkPath = isMovie ? `/Media/${item.id}`
                     : isTV ? `/Television/${item.id}`
-                    : isPerson ? `Persons/${item.id}`
+                    : isPerson ? `Person/${item.id}`
                     : '#';
 
                 return (
@@ -197,7 +197,7 @@ export default function searchResults(){
               className="rounded shadow mx-auto"
               />
               ) : (
-                 <div className="w-48 h-72 bg-gray-300 flex items-center justify-center text-gray-700 rounded mx-auto">
+                 <div className="w-48 h-72 bg-gray-100 flex items-center justify-center text-gray-700 rounded mx-auto">
               No image
             </div>
               )}

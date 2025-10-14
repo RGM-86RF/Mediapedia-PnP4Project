@@ -56,7 +56,7 @@ export default function Movieinfo() {
   };
 
     return (
-         <div className="flex flex-col min-h-screen">
+         <div className="flex flex-col min-h-screen bg-[#DDF6D2]">
         <header className="flex items-center justify-between px-4 py-2 bg-[#333333]">
             <div className="text-lime-300 font-bold text-x1"><a href="http://localhost:3000/">Mediapedia</a></div>
            
@@ -92,7 +92,7 @@ export default function Movieinfo() {
               className="rounded shadow"
               />
               <p className="mt-4 text-lg">Overview:</p>
-              <p className="  text-lg">{person.biography}</p>
+              <p className="text-lg bg-gray-300 rounded shadow">{person.biography}</p>
 
              
               
