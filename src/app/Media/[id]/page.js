@@ -150,6 +150,7 @@ export default function Movieinfo() {
             className="w-100 px-4 py-2 bg-[#1f1f1f] focus:outline-none focus:ring-2 focus:ring-lime-300"
             />
         </form>
+            <div className="text-lime-300 hover:underline text-x1 px-4 py-2"><a href="http://localhost:3000/">Home</a></div>
             <div className="flex items-center space-x-4 relative">
                  <button onClick={handleDropDown} className=" text-lime-300 hover:underline relative">MENU</button>
                  {isMenuOpen &&(
@@ -162,12 +163,18 @@ export default function Movieinfo() {
 
             </div>
         </header>
+        <nav className="bg-gray-300 text-black px-6 py-3 flex space-x-6 justify-center shadow">
+          <Link href={"/Movies"}>Movies</Link>
+          <Link href={"/Tv"}>TV</Link>
+          <Link href={"/People"}>People</Link>
+        </nav>
 
         <main className="mt-20 px-6 pb-10 flex-grow bg-[#DDF6D2] w-full">
-        <div key={movie.id} className="p-10 w-250 text-black bg-[#DDF6D2] w-auto">
+        <div key={movie.id} className="p-10 w-250 text-black  w-auto">
             <h1 className="text-lg font-bold mb-2 px-40">{movie.title}</h1>
-            <div className="flex flex-col lg:flex-row gap-6 bg-[#DDF6D2]">
-            <div className="flex-shrink-0 px-40">
+            <div className="flex flex-col lg:flex-row gap-6 bg-gray-300 rounded shadow">
+              
+            <div className="flex-shrink-0 px-40 ">
              <img
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
               alt={movie.title}
@@ -199,21 +206,24 @@ export default function Movieinfo() {
               <div className="flex flex-col lg:flex-row gap-6 mt-6 w-full max-w-screen-xl mx-auto">
               <div className=" flex-grow bg-gray-300 rounded shadow mx-auto">
               <p className="mt-4 text-lg font-bold text-decleration-line: underline">{movie.title}</p>
-              <p className="mt-4  text-lg">Overview:</p>
+              <p className="mt-4 text-lg font-bold">"{movie.tagline}"</p>
+              <p className="mt-4  text-lg font-bold text-decleration-line: underline">Overview:</p>
               <p className="mt-4  text-lg">{movie.overview}</p>
+              <p className="mt-4  text-lg font-bold text-decleration-line: underline">Status:</p>
+              <p className="mt-4  text-lg">{movie.status}</p>
               <p className="mt-4  text-lg font-bold text-decleration-line: underline">Release Date:</p>
               <p className="mt-4  text-lg">{movie.release_date}</p>
-              <p className="mt-4  text-lg"> Runtime: {movie.runtime} mins</p>
-              <p className="mt-4  text-lg font-bold text-decleration-line: underline">Budget:</p>
-              <p className="mt-4 text-lg">${movie.budget}</p>
-              <p className="mt-4  text-lg font-bold text-decleration-line: underline">Revenue:</p>
-              <p className="mt-4  text-lg">${movie.revenue}</p>
+              <p className="mt-4  text-lg font-bold text-decleration-line: underline">Run Time:</p>
+              <p className="mt-4  text-lg">{movie.runtime} mins</p>
+              
+              
               
 
               </div>
                 <div className="w-full lg:max-w-sm xl:max-w-xs bg-gray-300 rounded shadow p-6">
-                  <h2 className="text-1 font-bold mb-4">Where to watch</h2>
-                    {providers && providers.US && providers.US.flatrate ? (
+                  <h2 className="text-1 font-bold mb-4 ">Where to watch</h2>
+                  <h3 className="text-1 font-bold text-decleration-line: underline">Stream:</h3>
+                    {providers && providers.US && providers.US.flatrate? (
                       <ul>
                       {providers.US.flatrate.map((provider) => (
                         <li key={provider.provider_id} className="mb-2 flex items-center space-x-2">
@@ -227,8 +237,26 @@ export default function Movieinfo() {
                           ))}
                       </ul>
                       ) : (
-                        <p>No streaming providers available</p>
+                        <p className="mb-4">No streaming providers available</p>
                        )}
+                        <h2 className="text-1 font-bold mb-1 text-decleration-line: underline">Buy/Rent:</h2>
+                       {providers && providers.US && providers.US.rent? (
+                        <ul>
+                       {providers.US.rent.map((rentPro) => (
+                        <li key={rentPro.provider_id} className="mb-2 flex items-center space-x-2">
+                          <img 
+                          src={`https://image.tmdb.org/t/p/w45${rentPro.logo_path}`}
+                          alt={rentPro.provider_name}
+                          className="inline-block"
+                          />
+                          <span>{rentPro.provider_name}</span>
+                        </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p>No streaming providers available</p>
+                       
+                      )}
                       </div>
 
                       </div>
@@ -255,6 +283,15 @@ export default function Movieinfo() {
                 ))}
                 </div>
                 </div>
+
+              <div className="flex  gap-6 mt-6 w-full max-w-screen-xl mx-auto">
+              <div className=" flex-grow bg-gray-300 rounded shadow mx-auto">
+                <p className="mt-4  text-lg font-bold text-decleration-line: underline">Budget:</p>
+              <p className="mt-4 text-lg">${movie.budget}</p>
+              <p className="mt-4  text-lg font-bold text-decleration-line: underline">Revenue:</p>
+              <p className="mt-4  text-lg">${movie.revenue}</p>
+              </div>
+              </div>
 
                  <div className="mt-8 bg-gray-300 rounded shadow">
                 <h2 className="text-1 font-bold mb-4">Cast</h2>
@@ -307,6 +344,14 @@ export default function Movieinfo() {
        </main>
        <footer> 
         <p>Mediapedia -Student Project- by Antonio Gage</p>
+        <div className="px-6">
+        <img
+        src={"/TMDBAttribution.svg"}
+        width={75}
+        height={75}
+        className=""
+        />
+        </div>
       </footer>
         </div>
          

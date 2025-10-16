@@ -11,6 +11,8 @@ const [isMenuOpen, setMenuOpen] = useState(false);
 const [query, setQuery] = useState('');
 const router = useRouter();
 const [movies, setMovies] = useState([]);
+const [bgmovies, setBGMovies] = useState([]);
+const [tv, setTV] = useState([]);
 
       useEffect(() => {
         const fetchMovie = async () => {
@@ -23,6 +25,32 @@ const [movies, setMovies] = useState([]);
           }
         };
         fetchMovie();
+      }, []);
+
+      useEffect(() => {
+        const fetchBG = async () => {
+          try {
+            const bgResponse = await fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}`);
+            const bgData = await bgResponse.json();
+            setBGMovies(bgData.results); 
+          } catch (error) {
+            console.error('Error fetching movie:', error);
+          }
+        };
+        fetchBG();
+      }, []);
+
+      useEffect(() => {
+        const fetchTV = async () => {
+          try {
+            const tvResponse = await fetch(`https://api.themoviedb.org/3/tv/airing_today?api_key=${API_KEY}`);
+            const tvData = await tvResponse.json();
+            setTV(tvData.results); 
+          } catch (error) {
+            console.error('Error fetching movie:', error);
+          }
+        };
+        fetchTV();
       }, []);
 
   const handleSubmit = (e) => {
@@ -43,7 +71,7 @@ const [movies, setMovies] = useState([]);
 
   };
 
-  const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+  const randomMovie = bgmovies[Math.floor(Math.random() * bgmovies.length)];
    
   return (
     <div className="flex flex-col min-h-screen">
@@ -59,6 +87,7 @@ const [movies, setMovies] = useState([]);
             />
         </form>
         <div className="flex items-center space-x-4 relative">
+           <div className="text-lime-300 hover:underline text-x1 px-4 py-2"><a href="http://localhost:3000/">Home</a></div>
           <button onClick={handleDropDown} className=" text-lime-300 hover:underline relative">
           MENU</button>
           {isMenuOpen &&(
@@ -71,9 +100,27 @@ const [movies, setMovies] = useState([]);
 
         </div>
       </header>
-      <section className="text-black px-20 py-40 bg-[#DDF6D2]">
-       <h1 className="point">Welcome to Mediapedia</h1> 
-        
+
+      <nav className="bg-gray-300 text-black px-6 py-3 flex space-x-6 justify-center shadow">
+          <Link href={"/Movies"}>Movies</Link>
+          <Link href={"/Tv"}>TV</Link>
+          <Link href={"/People"}>People</Link>
+        </nav>
+
+          <div className="px-10 py-20 bg-[#DDF6D2]">
+
+          </div>
+
+      <section className="relative px-20 py-40 bg-cover bg-center bg-no-repeat drop-shadow text-lime-300"
+      style={{backgroundImage : randomMovie?.backdrop_path ? `url(https://image.tmdb.org/t/p/original${randomMovie.backdrop_path})`
+      : 'none',
+
+      }}>
+        <div className="absolute inset-0 bg-black/60"></div>
+        <div className="relative z-10 flex flex-col justify-start items-start h-full pt-10">
+       <h1 className="point drop-shadow-lg">Welcome to Mediapedia</h1>
+       <h2 className="text-x1 drop-shadow" >Mediapedia is a media information website that utilizes the TMDB api to share info for your favorite Movies, TV, Cast and Crew members.</h2>
+       </div>
       </section>
 
     <section className="bg-[#DDF6D2]">
@@ -107,11 +154,48 @@ const [movies, setMovies] = useState([]);
                 </div>
                 
           </div>
+
+           <div className="overflow-x-auto bg-gray-300 rounded shadow"
+            style={{ width: '1400px' }}>Airing Today: 
+              <div className="flex space-x-4 flex-nowrap bg-gray-300 rounded shadow"> 
+                {tv.map((TV) => (
+                  <div key={TV.id} className="flex-shrink-0 w-48 text-center bg-gray-300 rounded shadow">
+              <Link href={`./Television/${TV.id}`} key={TV.id}>
+              <img
+              src={`https://image.tmdb.org/t/p/w500${TV.poster_path}`}
+              alt={TV.name}
+              width={192}
+              height={288}
+              className="rounded shadow mx-auto bg-gray-300 "
+              />
+              </Link>
+              <h2 className="text-lg font-bold mb-2">{TV.name}</h2>
+              </div>
+
+                ))}
+                <Link href={"/MoreTV/MoreAiringToday"}>
+                <div className="flex-shrink-0 w-48 h-[288px] text-lime-300 bg-black rounded shadow text-center flex items-center justify-center">
+                  Show More
+                  </div>
+                </Link>
+
+
+                </div>
+                
+          </div>
         
       </main>
       </div>
       <footer> 
         <p>Mediapedia -Student Project- by Antonio Gage</p>
+        <div className="px-6">
+        <img
+        src={"/TMDBAttribution.svg"}
+        width={75}
+        height={75}
+        className=""
+        />
+        </div>
       </footer>
     
     </section>

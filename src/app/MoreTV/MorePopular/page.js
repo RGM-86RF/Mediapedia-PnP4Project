@@ -79,6 +79,7 @@ export default function nowPlaying(){
             />
         </form>
             <div className="flex items-center space-x-4 relative">
+               <div className="text-lime-300 hover:underline text-x1 px-4 py-2"><a href="http://localhost:3000/">Home</a></div>
                  <button onClick={handleDropDown} className=" text-lime-300 hover:underline">MENU</button>
                  {isMenuOpen &&(
              <ul className=" text-black absolute top-full mt-2 bg-gray-100 border border-gray-300 shadow-lg rounded w-20 z-10">
@@ -89,7 +90,11 @@ export default function nowPlaying(){
           )}
             </div>
         </header>
-
+          <nav className="bg-gray-300 text-black px-6 py-3 flex space-x-6 justify-center shadow">
+          <Link href={"/Movies"}>Movies</Link>
+          <Link href={"/Tv"}>TV</Link>
+          <Link href={"/People"}>People</Link>
+        </nav>
 
 
         <main className="flex">
@@ -152,6 +157,14 @@ export default function nowPlaying(){
 
         <footer> 
         <p>Mediapedia -Student Project- by Antonio Gage</p>
+        <div className="px-6">
+        <img
+        src={"/TMDBAttribution.svg"}
+        width={75}
+        height={75}
+        className=""
+        />
+        </div>
       </footer>
          </div>
     );

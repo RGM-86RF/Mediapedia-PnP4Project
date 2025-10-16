@@ -67,6 +67,7 @@ const [topTV, setTopTV] = useState([]);
             />
         </form>
         <div className="flex items-center space-x-4 relative">
+           <div className="text-lime-300 hover:underline text-x1 px-4 py-2"><a href="http://localhost:3000/">Home</a></div>
           <button onClick={handleDropDown} className=" text-lime-300 hover:underline relative">
           MENU</button>
           {isMenuOpen &&(
@@ -79,6 +80,14 @@ const [topTV, setTopTV] = useState([]);
 
         </div>
       </header>
+
+      <nav className="bg-gray-300 text-black px-6 py-3 flex space-x-6 justify-center shadow">
+          <Link href={"/Movies"}>Movies</Link>
+          <Link href={"/Tv"}>TV</Link>
+          <Link href={"/People"}>People</Link>
+        </nav>
+
+        
       <section className="text-black">
        <h1 className="point">Television</h1> 
         
@@ -152,6 +161,14 @@ const [topTV, setTopTV] = useState([]);
       </section>
       <footer> 
         <p>Mediapedia -Student Project- by Antonio Gage</p>
+        <div className="px-6">
+        <img
+        src={"/TMDBAttribution.svg"}
+        width={75}
+        height={75}
+        className=""
+        />
+        </div>
       </footer>
     
   
