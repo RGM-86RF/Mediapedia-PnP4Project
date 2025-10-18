@@ -1,6 +1,6 @@
 'use client'
 import React, {useEffect,useState} from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY
@@ -21,6 +21,7 @@ export default function Movieinfo() {
     const [cast, setCast] = useState([]);
     const [crew, setCrew] = useState([]);
     const [rec, setRecommend] = useState([]);
+    const router = useRouter();
     
     useEffect(() => {
         if(!id) return;
@@ -174,7 +175,8 @@ export default function Movieinfo() {
         <main className="mt-20 px-6 pb-10 flex-grow w-full ">
         <div key={tv.id} className="p-10 w-250 text-black w-auto ">
             <h1 className="text-lg font-bold mb-2 px-40">{tv.name}</h1>
-            <div className="flex flex-col lg:flex-row gap-6 bg-[#DDF6D2]">
+
+            <div className="flex flex-col lg:flex-row gap-6 bg-gray-300 py-2 rounded shadow">
             <div className="flex-shrink-0 px-40 ">
              <img
               src={`https://image.tmdb.org/t/p/w500${tv.poster_path}`}
@@ -203,13 +205,13 @@ export default function Movieinfo() {
               </div>
               <div className="flex flex-col lg:flex-row gap-6 mt-6 w-full max-w-screen-xl mx-auto">
               <div className=" flex-grow bg-gray-300 rounded shadow mx-auto">
-              <p className="mt-4 text-lg">Overview:</p>
+              <p className="mt-4 text-lg font-bold text-decleration-line: underline">Overview:</p>
               <p className="  text-lg">{tv.overview}</p>
-              <p className="mt-4 text-lg">Number of Episodes:</p>
-              <p className="  text-lg">{tv.number_of_episodes}</p>
-              <p className="mt-4 text-lg">Number of Seasons:</p>
+              <p className="mt-4 text-lg font-bold text-decleration-line: underline">Number of Episodes:</p>
+              <p className="  text-lg ">{tv.number_of_episodes}</p>
+              <p className="mt-4 text-lg font-bold text-decleration-line: underline">Number of Seasons:</p>
               <p className="  text-lg">{tv.number_of_seasons}</p>
-              <p className="mt-4 text-lg">Type of Show:</p>
+              <p className="mt-4 text-lg font-bold text-decleration-line: underline">Type of Show:</p>
               <p className="  text-lg">{tv.type}</p>
 
               </div>
@@ -234,7 +236,7 @@ export default function Movieinfo() {
                       </div>
               </div>
 
-              <div className="mt-8 bg-gray-300 rounded shadow">
+              <div className="mt-8 bg-gray-300 rounded shadow px-2">
                 <h2 className="text-1 font-bold mb-4">Cast</h2>
                 <div className="flex space-x-4 overflow-x-auto">
                {cast.map((peeps) => (
@@ -256,8 +258,8 @@ export default function Movieinfo() {
                 </div>
                 </div>
 
-                 <div className="mt-8 bg-gray-300 rounded shadow">
-                <h2 className="text-1 font-bold mb-4">Cast</h2>
+                 <div className="mt-8 bg-gray-300 rounded shadow px-2">
+                <h2 className="text-1 font-bold mb-4">Crew</h2>
                 <div className="flex space-x-4 overflow-x-auto">
                {crew.map((peep) => (
                   <div key={`crew-${peep.id}-${peep.job}`} className="flex-shrink-0 w-48 text-center ">
@@ -281,7 +283,7 @@ export default function Movieinfo() {
 
               
 
-              <div className="mt-8 bg-gray-300 rounded shadow">
+              <div className="mt-8 bg-gray-300 rounded shadow px-2">
                 <h2 className="text-1 font-bold mb-4">Recomendations</h2>
                 <div className="flex space-x-4 overflow-x-auto">
                {rec.map((recs) => (
@@ -289,13 +291,13 @@ export default function Movieinfo() {
               <Link href={`/Television/${recs.id}`} key={recs.id}>
               <img
               src={`https://image.tmdb.org/t/p/w500${recs.poster_path}`}
-              alt={recs.title}
+              alt={recs.name}
               width={192}
               height={288}
               className="rounded shadow mx-auto"
               />
               </Link>
-              <h2 className="text-lg font-bold mb-2">{recs.title}</h2>
+              <h2 className="text-lg font-bold mb-2">{recs.name}</h2>
               
               </div>
 

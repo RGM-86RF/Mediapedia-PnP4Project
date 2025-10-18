@@ -1,7 +1,8 @@
 'use client'
 import React, {useEffect,useState} from "react";
-import { useParams } from "next/navigation";
+import { useRouter ,  useParams } from "next/navigation";
 import Link from "next/link";
+
 
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY
@@ -22,6 +23,8 @@ export default function Movieinfo() {
     const [cast, setCast] = useState([]);
     const [crew, setCrew] = useState([]);
     const [rec, setRecommend] = useState([]);
+    const router = useRouter();
+    
     
     useEffect(() => {
         if(!id) return;
@@ -169,10 +172,11 @@ export default function Movieinfo() {
           <Link href={"/People"}>People</Link>
         </nav>
 
-        <main className="mt-20 px-6 pb-10 flex-grow bg-[#DDF6D2] w-full">
-        <div key={movie.id} className="p-10 w-250 text-black  w-auto">
-            <h1 className="text-lg font-bold mb-2 px-40">{movie.title}</h1>
-            <div className="flex flex-col lg:flex-row gap-6 bg-gray-300 rounded shadow">
+        <main className="mt-20 px-6 pb-10 flex-grow bg-[#DDF6D2] w-full ">
+        <div key={movie.id} className="p-10 w-250 text-black  w-auto ">
+          
+            <h1 className="text-lg font-bold mb-2 px-40 ">{movie.title}</h1>
+            <div className="flex flex-col lg:flex-row gap-6 bg-gray-300 rounded shadow py-2">
               
             <div className="flex-shrink-0 px-40 ">
              <img
@@ -262,7 +266,7 @@ export default function Movieinfo() {
                       </div>
 
 
-              <div className="mt-8 bg-gray-300 rounded shadow">
+              <div className="mt-8 bg-gray-300 rounded shadow px-2">
                 <h2 className="text-1 font-bold mb-4 ">Cast</h2>
                 <div className="flex space-x-4 overflow-x-auto ">
                {cast.map((peeps) => (
@@ -293,8 +297,8 @@ export default function Movieinfo() {
               </div>
               </div>
 
-                 <div className="mt-8 bg-gray-300 rounded shadow">
-                <h2 className="text-1 font-bold mb-4">Cast</h2>
+                 <div className="mt-8 bg-gray-300 rounded shadow px-2">
+                <h2 className="text-1 font-bold mb-4">Crew</h2>
                 <div className="flex space-x-4 overflow-x-auto">
                {crew.map((peep) => (
                   <div key={`crew-${peep.id}-${peep.job}`} className="flex-shrink-0 w-48 text-center ">
@@ -318,7 +322,7 @@ export default function Movieinfo() {
               
               
 
-              <div className="mt-8 bg-gray-300 rounded shadow">
+              <div className="mt-8 bg-gray-300 rounded shadow px-2">
                 <h2 className="text-1 font-bold mb-4">Recomendations</h2>
                 <div className="flex space-x-4 overflow-x-auto">
                {rec.map((recs) => (

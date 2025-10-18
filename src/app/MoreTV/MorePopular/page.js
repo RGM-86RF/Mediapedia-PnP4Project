@@ -50,7 +50,7 @@ export default function nowPlaying(){
     setPage(1);
      console.log('Query:', query);
 
-    if(queries.trim()) {
+    if(query.trim()) {
       router.push(`/search?q=${encodeURIComponent(query)}`);
     }
 

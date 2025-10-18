@@ -1,6 +1,6 @@
 'use client'
 import React, {useEffect,useState} from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY
@@ -15,7 +15,10 @@ export default function Movieinfo() {
     const [query, setQuery] = useState('');
     const [isMenuOpen, setMenuOpen] = useState(false);
     const [person,setPerson] = useState(null);
+    const [cast, setCast] = useState([]);
+    const [crew, setCrew] = useState([]);
     const [loading, setloading] = useState(false);
+    const router = useRouter();
     
     
     useEffect(() => {
@@ -36,6 +39,37 @@ export default function Movieinfo() {
     getPerson();
     }, [id]);
 
+      useEffect(() => {
+                const fetchCast = async () => {
+                  try {
+                    const castResponse = await fetch(`https://api.themoviedb.org/3/person/${id}/combined_credits?api_key=${API_KEY}`);
+                    const castData = await castResponse.json();
+                    setCast(castData.cast); 
+                  } catch (error) {
+                    console.error('Error fetching trailer:', error);
+                  }
+                };
+                if(id){
+                fetchCast();
+                }
+              }, [id]);
+
+                useEffect(() => {
+                const fetchCrew = async () => {
+                  try {
+                    const crewResponse = await fetch(`https://api.themoviedb.org/3/person/${id}/combined_credits?api_key=${API_KEY}`);
+                    const crewData = await crewResponse.json();
+                    setCrew(crewData.crew); 
+                  } catch (error) {
+                    console.error('Error fetching trailer:', error);
+                  }
+                };
+                if(id){
+                fetchCrew();
+                }
+              }, [id]);
+
+
     
     if(loading || !person) {
         return <div className="p-8 text-black">Loading...</div>
@@ -50,6 +84,9 @@ export default function Movieinfo() {
     }
 
   };
+
+  const movies = cast.filter((item) => item.media_type === 'movie')
+  const TV = cast.filter((item) => item.media_type === 'tv')
 
   const handleDropDown = () => {
     setMenuOpen(!isMenuOpen);
@@ -98,10 +135,62 @@ export default function Movieinfo() {
               height={550}
               className="rounded shadow"
               />
-              <p className="mt-4 text-lg">Overview:</p>
-              <p className="text-lg bg-gray-300 rounded shadow">{person.biography}</p>
+               <div className="flex flex-col lg:flex-row gap-6 mt-6 w-full max-w-screen-xl mx-auto">
+              <div className=" flex-grow bg-gray-300 rounded shadow mx-auto">
+              <p className="mt-4 text-lg font-bold text-decleration-line: underline">Known For:</p>
+              <p className="text-lg bg-gray-300">{person.known_for_department}</p>
+              <p className="mt-4 text-lg font-bold text-decleration-line: underline">Overview:</p>
+              <p className="text-lg bg-gray-300 ">{person.biography}</p>
+              </div>
+              </div>
 
-             
+              <div className="mt-8 bg-gray-300 rounded shadow px-2">
+                <h2 className="text-1 font-bold mb-4 ">Cast</h2>
+                <div className="flex space-x-4 overflow-x-auto ">
+               {cast.filter((peeps) => !peeps.adult).map((peeps) => (
+                  <div key={`movies-${peeps.id}-${peeps.character}`} className="flex-shrink-0 w-48 text-center ">
+              <Link href={peeps.media_type === 'movie' ? `../Media/${peeps.id}` : ` ../Television/${peeps.id}`} key={peeps.id}>
+              <img
+              src={`https://image.tmdb.org/t/p/w500${peeps.poster_path}`}
+              alt={peeps.title || peeps.name}
+              width={192}
+              height={288}
+              className="rounded shadow mx-auto"
+              />
+              </Link>
+              <h2 className="text-lg font-bold mb-2">{peeps.title || peeps.name}</h2>
+              <p className="text-sm italic text-gray-600">{peeps.character}</p>
+              <p className="mt-2 text-sm italic text-gray-600">{peeps.media_type}</p>
+              </div>
+
+                ))}
+                </div>
+                </div>
+
+                <div className="mt-8 bg-gray-300 rounded shadow px-2">
+                <h2 className="text-1 font-bold mb-4">Crew</h2>
+                <div className="flex space-x-4 overflow-x-auto">
+               {crew.map((jobs) => (
+                  <div key={`crew-${jobs.id}-${jobs.job}`} className="flex-shrink-0 w-48 text-center ">
+              <Link href={
+                jobs.media_type === 'movie' ? `../Media/${jobs.id}` : ` ../Television/${jobs.id}`} key={jobs.id}>
+              <img
+              src={`https://image.tmdb.org/t/p/w500${jobs.poster_path}`}
+              alt={jobs.title || jobs.name}
+              width={192}
+              height={288}
+              className="rounded shadow mx-auto"
+              />
+              </Link>
+              <h2 className="text-lg font-bold mb-2">{jobs.title || jobs.name}</h2>
+              <p className="text-sm italic text-gray-600">{jobs.job}</p>
+              <p className="mt-2 text-sm italic text-gray-600">{jobs.media_type}</p>
+              </div>
+
+                ))}
+                </div>
+                </div>
+              
               
 
        </div>

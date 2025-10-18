@@ -1,14 +1,13 @@
 'use client'
 import React, {useEffect, useState} from "react";
 import Link from "next/link";
-import { useRouter,} from "next/navigation";
+import { useRouter} from "next/navigation";
 
  const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
 
 export default function nowPlaying(){
     const [page, setPage] = useState(1);
-    
     const [query, setQuery] = useState('');
     const [movie, setMovies] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
@@ -50,7 +49,7 @@ export default function nowPlaying(){
     setPage(1);
      console.log('Query:', query);
 
-    if(queries.trim()) {
+    if(query.trim()) {
       router.push(`/search?q=${encodeURIComponent(query)}`);
     }
 

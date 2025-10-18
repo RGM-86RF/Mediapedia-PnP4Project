@@ -76,15 +76,15 @@ const [popPeople, setPopPeople] = useState([]);
         </nav>
 
         
-      <section className="text-black">
+      <section className="text-black px-10 py-10">
        <h1 className="point">People</h1> 
         
       </section>
 
     <section> 
-    <div className="text-black font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-4 pb-20 gap-8 sm:p-20">
+    <div className="text-black font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center  p-4 pb-20 gap-8 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-            <div className="overflow-x-auto  bg-gray-300 rounded shadow"
+            <div className="overflow-x-auto  bg-gray-300 rounded shadow px-2"
             style={{ width: '1400px' }}> Popular:
               <div className="flex space-x-4 flex-nowrap"> 
                 {popPeople.filter((peeps) => !peeps.adult).map((peeps) => (

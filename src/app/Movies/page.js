@@ -86,14 +86,14 @@ const [topMovies, setTopMovies] = useState([]);
           <Link href={"/People"}>People</Link>
         </nav>
 
-      <section className="text-black">
+      <section className=" px-10 py-10 text-black">
        <h1 className="point">Movies</h1> 
         
       </section>
 
-    <section> 
-    <div className="text-black font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-4 pb-20 gap-8 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start bg-gray-300 rounded shadow">
+    
+    <div className="text-black font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center p-4 pb-20 gap-8 sm:p-20 px-2">
+      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start bg-gray-300 rounded shadow px-2">
             <div className="overflow-x-auto"
             style={{ width: '1400px' }}> Popular:
               <div className="flex space-x-4 flex-nowrap bg-gray-300 rounded shadow"> 
@@ -123,11 +123,11 @@ const [topMovies, setTopMovies] = useState([]);
       </main>
       
       </div>
-      </section>
-      <section>
-    <div className="text-black font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-4 pb-20 gap-8 sm:p-20">
+      
+      
+    <div className="text-black font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center  p-4 pb-20 gap-8 sm:p-20 px-2 ">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-            <div className="overflow-x-auto bg-gray-300 rounded shadow"
+            <div className="overflow-x-auto bg-gray-300 rounded shadow px-2"
             style={{ width: '1400px' }}> Top Rated:
               <div className="flex space-x-4 flex-nowrap bg-gray-300 rounded shadow"> 
                 {topMovies.filter((movies) => !movies.adult).map((movies) => (
@@ -156,7 +156,7 @@ const [topMovies, setTopMovies] = useState([]);
       </main>
       
       </div>
-      </section>
+      
       <footer> 
         <p>Mediapedia -Student Project- by Antonio Gage</p>
         <div className="px-6">

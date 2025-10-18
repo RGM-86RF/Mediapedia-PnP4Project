@@ -128,7 +128,7 @@ const [tv, setTV] = useState([]);
       <main className="flex flex-col gap-[30px] row-start-2 items-center sm:items-start">
             <div className="overflow-x-auto bg-gray-300 rounded shadow"
             style={{ width: '1400px' }}>Now Playing: 
-              <div className="flex space-x-4 flex-nowrap bg-gray-300 rounded shadow"> 
+              <div className="flex space-x-4 flex-nowrap bg-gray-300 rounded shadow px-2"> 
                 {movies.map((movie) => (
                   <div key={movie.id} className="flex-shrink-0 w-48 text-center bg-gray-300 rounded shadow">
               <Link href={`./Media/${movie.id}`} key={movie.id}>
@@ -155,7 +155,7 @@ const [tv, setTV] = useState([]);
                 
           </div>
 
-           <div className="overflow-x-auto bg-gray-300 rounded shadow"
+           <div className="overflow-x-auto bg-gray-300 rounded shadow px-2"
             style={{ width: '1400px' }}>Airing Today: 
               <div className="flex space-x-4 flex-nowrap bg-gray-300 rounded shadow"> 
                 {tv.map((TV) => (
