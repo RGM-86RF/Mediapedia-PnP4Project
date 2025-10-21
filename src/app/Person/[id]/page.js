@@ -106,8 +106,8 @@ export default function Movieinfo() {
             className="w-100 px-4 py-2 bg-[#1f1f1f] focus:outline-none focus:ring-2 focus:ring-lime-300"
             />
         </form>
+        <div className="text-lime-300 hover:underline text-x1 px-4 py-2"><a href="http://localhost:3000/">Home</a></div>
             <div className="flex items-center space-x-4 relative">
-               <div className="text-lime-300 hover:underline text-x1 px-4 py-2"><a href="http://localhost:3000/">Home</a></div>
                  <button onClick={handleDropDown} className=" text-lime-300 hover:underline relative">MENU</button>
                  {isMenuOpen &&(
             <ul className=" text-black absolute top-full mt-2 bg-gray-100 border border-gray-300 shadow-lg rounded w-20 z-10">

@@ -1,5 +1,5 @@
 'use client'
-import React, {useEffect , useState,} from "react";
+import React, {useEffect , useState,useRef} from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -12,6 +12,8 @@ const [query, setQuery] = useState('');
 const router = useRouter();
 const [popMovies, setPopMovies] = useState([]);
 const [topMovies, setTopMovies] = useState([]);
+const popularRef = useRef(null)
+const topRatedRef = useRef(null)
 
       useEffect(() => {
         const fetchMovie = async () => {
@@ -52,6 +54,17 @@ const [topMovies, setTopMovies] = useState([]);
   const handleDropDown = () => {
     setMenuOpen(!isMenuOpen);
   };
+
+  const scrollLeft = (ref) => {
+    if(ref.current)
+      ref.current.scrollBy({left: -1250, behavior: 'smooth'})
+  }
+
+  const scrollRight = (ref) => {
+    if(ref.current)
+      ref.current.scrollBy({left: 1250, behavior: 'smooth'})
+  }
+  
    
   return (
     <div className="flex flex-col min-h-screen bg-[#DDF6D2]">
@@ -94,7 +107,12 @@ const [topMovies, setTopMovies] = useState([]);
     
     <div className="text-black font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center p-4 pb-20 gap-8 sm:p-20 px-2">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start bg-gray-300 rounded shadow px-2">
-            <div className="overflow-x-auto"
+        <div className="relative">
+        <button onClick={() =>scrollLeft(popularRef)} className=" absolute p-2 bg-black text-lime-300 left-0 top-1/2 transform-translate-y-1/2 z-10 rounded hover: bg-gray-800 ">
+          ◀
+        </button>
+            <div ref={popularRef}
+            className="overflow-x-auto  px-2"
             style={{ width: '1400px' }}> Popular:
               <div className="flex space-x-4 flex-nowrap bg-gray-300 rounded shadow"> 
                 {popMovies.filter((movie) => !movie.adult).map((movie) => (
@@ -118,8 +136,14 @@ const [topMovies, setTopMovies] = useState([]);
                   </div>
                 </Link>
                 </div>
+
+                <button onClick={() =>scrollRight(popularRef)} className=" absolute p-2 bg-black text-lime-300 right-0 top-1/2 transform-translate-y-1/2 z-10  rounded hover: bg-gray-800" >
+          ▶
+        </button>
           </div>
         
+
+        </div>
       </main>
       
       </div>
@@ -127,8 +151,13 @@ const [topMovies, setTopMovies] = useState([]);
       
     <div className="text-black font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center  p-4 pb-20 gap-8 sm:p-20 px-2 ">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-            <div className="overflow-x-auto bg-gray-300 rounded shadow px-2"
-            style={{ width: '1400px' }}> Top Rated:
+        <div className="relative">
+        <button onClick={() =>scrollLeft(topRatedRef)} className=" absolute p-2 bg-black text-lime-300 left-0 top-1/2 transform-translate-y-1/2 z-10 rounded hover: bg-gray-800 ">
+          ◀
+        </button>
+            <div ref={topRatedRef}
+            className="overflow-x-auto bg-gray-300 rounded shadow px-2"
+            style={{ scrollBehavior:'smooth', width: '1400px' }}> Top Rated:
               <div className="flex space-x-4 flex-nowrap bg-gray-300 rounded shadow"> 
                 {topMovies.filter((movies) => !movies.adult).map((movies) => (
                   <div key={movies.id} className="flex-shrink-0 w-48 text-center bg-gray-300 rounded shadow">
@@ -153,6 +182,10 @@ const [topMovies, setTopMovies] = useState([]);
                 </div>
           </div>
         
+ <button onClick={() =>scrollRight(topRatedRef)} className=" absolute p-2 bg-black text-lime-300 right-0 top-1/2 transform-translate-y-1/2 z-10  rounded hover: bg-gray-800" >
+          ▶
+        </button>
+        </div>
       </main>
       
       </div>

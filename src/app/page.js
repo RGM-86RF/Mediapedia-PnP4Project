@@ -1,5 +1,5 @@
 'use client'
-import React, {useEffect , useState,} from "react";
+import React, {useEffect , useState, useRef} from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -12,7 +12,12 @@ const [query, setQuery] = useState('');
 const router = useRouter();
 const [movies, setMovies] = useState([]);
 const [bgmovies, setBGMovies] = useState([]);
+const [randmovies, setRandMovies] = useState([])
 const [tv, setTV] = useState([]);
+const nowPlayingRef = useRef(null)
+const nowAiringRef = useRef(null)
+
+
 
       useEffect(() => {
         const fetchMovie = async () => {
@@ -30,9 +35,11 @@ const [tv, setTV] = useState([]);
       useEffect(() => {
         const fetchBG = async () => {
           try {
-            const bgResponse = await fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}`);
+            const bgResponse = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`);
             const bgData = await bgResponse.json();
             setBGMovies(bgData.results); 
+            const random = bgData.results[Math.floor(Math.random() * bgData.results.length)];
+            setRandMovies(random)
           } catch (error) {
             console.error('Error fetching movie:', error);
           }
@@ -42,7 +49,7 @@ const [tv, setTV] = useState([]);
 
       useEffect(() => {
         const fetchTV = async () => {
-          try {
+          try { 
             const tvResponse = await fetch(`https://api.themoviedb.org/3/tv/airing_today?api_key=${API_KEY}`);
             const tvData = await tvResponse.json();
             setTV(tvData.results); 
@@ -67,11 +74,17 @@ const [tv, setTV] = useState([]);
     setMenuOpen(!isMenuOpen);
   };
 
-  const handleMore = () => {
+ 
+  const scrollLeft = (ref) => {
+    if(ref.current)
+      ref.current.scrollBy({left: -1250, behavior: 'smooth'})
+  }
 
-  };
-
-  const randomMovie = bgmovies[Math.floor(Math.random() * bgmovies.length)];
+  const scrollRight = (ref) => {
+    if(ref.current)
+      ref.current.scrollBy({left: 1250, behavior: 'smooth'})
+  }
+  
    
   return (
     <div className="flex flex-col min-h-screen">
@@ -86,8 +99,9 @@ const [tv, setTV] = useState([]);
             className="w-100 px-4 py-2 bg-[#1f1f1f] focus:outline-none focus:ring-2 focus:ring-lime-300"
             />
         </form>
+        <div className="text-lime-300 hover:underline text-x1 px-4 py-2"><a href="http://localhost:3000/">Home</a></div>
         <div className="flex items-center space-x-4 relative">
-           <div className="text-lime-300 hover:underline text-x1 px-4 py-2"><a href="http://localhost:3000/">Home</a></div>
+           
           <button onClick={handleDropDown} className=" text-lime-300 hover:underline relative">
           MENU</button>
           {isMenuOpen &&(
@@ -101,7 +115,7 @@ const [tv, setTV] = useState([]);
         </div>
       </header>
 
-      <nav className="bg-gray-300 text-black px-6 py-3 flex space-x-6 justify-center shadow">
+      <nav className="bg-[#c3b8c7] text-black px-6 py-3 flex space-x-6 justify-center shadow">
           <Link href={"/Movies"}>Movies</Link>
           <Link href={"/Tv"}>TV</Link>
           <Link href={"/People"}>People</Link>
@@ -111,8 +125,8 @@ const [tv, setTV] = useState([]);
 
           </div>
 
-      <section className="relative px-20 py-40 bg-cover bg-center bg-no-repeat drop-shadow text-lime-300"
-      style={{backgroundImage : randomMovie?.backdrop_path ? `url(https://image.tmdb.org/t/p/original${randomMovie.backdrop_path})`
+      <section className="relative px-20 py-40 bg-cover bg-center drop-shadow text-lime-300"
+      style={{backgroundImage : randmovies?.backdrop_path ? `url(https://image.tmdb.org/t/p/original${randmovies.backdrop_path})`
       : 'none',
 
       }}>
@@ -126,18 +140,23 @@ const [tv, setTV] = useState([]);
     <section className="bg-[#DDF6D2]">
     <div className="text-black font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-[30px] row-start-2 items-center sm:items-start">
-            <div className="overflow-x-auto bg-gray-300 rounded shadow"
-            style={{ width: '1400px' }}>Now Playing: 
-              <div className="flex space-x-4 flex-nowrap bg-gray-300 rounded shadow px-2"> 
+        <div className="relative">
+        <button onClick={() =>scrollLeft(nowPlayingRef)} className=" absolute p-2 bg-black text-lime-300 left-0 top-1/2 transform-translate-y-1/2 z-10 rounded hover: bg-gray-800 ">
+          ◀
+        </button>
+            <div ref={nowPlayingRef}
+            className="overflow-x-auto  bg-[#c3b8c7] rounded shadow scrollbar-hide"
+            style={{ scrollBehavior:'smooth', width:'1400px' }}>Now Playing: 
+              <div className="flex space-x-4 flex-nowrap bg-[#c3b8c7] rounded shadow px-2"> 
                 {movies.map((movie) => (
-                  <div key={movie.id} className="flex-shrink-0 w-48 text-center bg-gray-300 rounded shadow">
+                  <div key={movie.id} className="flex-shrink-0 w-48 text-center bg-[#c3b8c7] rounded shadow">
               <Link href={`./Media/${movie.id}`} key={movie.id}>
               <img
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
               alt={movie.title}
               width={192}
               height={288}
-              className="rounded shadow mx-auto bg-gray-300 "
+              className="rounded shadow mx-auto bg-gray-300"
               />
               </Link>
               <h2 className="text-lg font-bold mb-2">{movie.title}</h2>
@@ -154,12 +173,20 @@ const [tv, setTV] = useState([]);
                 </div>
                 
           </div>
-
-           <div className="overflow-x-auto bg-gray-300 rounded shadow px-2"
-            style={{ width: '1400px' }}>Airing Today: 
-              <div className="flex space-x-4 flex-nowrap bg-gray-300 rounded shadow"> 
+                  <button onClick={() =>scrollRight(nowPlayingRef)} className=" absolute p-2 bg-black text-lime-300 right-0 top-1/2 transform-translate-y-1/2 z-10  rounded hover: bg-gray-800" >
+          ▶
+        </button>
+          </div>
+                 <div className="relative">
+        <button onClick={() =>scrollLeft(nowAiringRef)} className=" absolute p-2 bg-black text-lime-300 left-0 top-1/2 transform-translate-y-1/2 z-10  rounded hover: bg-gray-800">
+          ◀
+        </button>
+           <div ref={nowAiringRef}
+           className="overflow-x-auto bg-[#c3b8c7] rounded shadow px-2"
+            style={{ scrollBehavior: 'smooth',width:'1400px' }}>Airing Today: 
+              <div className="flex space-x-4 flex-nowrap bg-[#c3b8c7] rounded shadow"> 
                 {tv.map((TV) => (
-                  <div key={TV.id} className="flex-shrink-0 w-48 text-center bg-gray-300 rounded shadow">
+                  <div key={TV.id} className="flex-shrink-0 w-48 text-center bg-[#c3b8c7] rounded shadow">
               <Link href={`./Television/${TV.id}`} key={TV.id}>
               <img
               src={`https://image.tmdb.org/t/p/w500${TV.poster_path}`}
@@ -183,7 +210,10 @@ const [tv, setTV] = useState([]);
                 </div>
                 
           </div>
-        
+          <button onClick={() =>scrollRight(nowAiringRef)} className=" absolute p-2 bg-black text-lime-300 right-0 top-1/2 transform-translate-y-1/2 z-10  rounded hover: bg-gray-800" >
+          ▶
+        </button>
+              </div>
       </main>
       </div>
       <footer> 

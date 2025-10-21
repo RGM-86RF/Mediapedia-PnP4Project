@@ -1,5 +1,5 @@
 'use client'
-import React, {useEffect , useState,} from "react";
+import React, {useEffect , useState,useRef} from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -11,6 +11,7 @@ const [isMenuOpen, setMenuOpen] = useState(false);
 const [query, setQuery] = useState('');
 const router = useRouter();
 const [popPeople, setPopPeople] = useState([]);
+const popularRef = useRef(null)
 
 
       useEffect(() => {
@@ -42,6 +43,16 @@ const [popPeople, setPopPeople] = useState([]);
     setMenuOpen(!isMenuOpen);
   };
    
+ const scrollLeft = (ref) => {
+    if(ref.current)
+      ref.current.scrollBy({left: -1250, behavior: 'smooth'})
+  }
+
+  const scrollRight = (ref) => {
+    if(ref.current)
+      ref.current.scrollBy({left: 1250, behavior: 'smooth'})
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-[#DDF6D2]">
     <header className="flex items-center justify-between px-4 py-2 bg-[#333333]">
@@ -84,7 +95,12 @@ const [popPeople, setPopPeople] = useState([]);
     <section> 
     <div className="text-black font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center  p-4 pb-20 gap-8 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-            <div className="overflow-x-auto  bg-gray-300 rounded shadow px-2"
+<div className="relative">
+        <button onClick={() =>scrollLeft(popularRef)} className=" absolute p-2 bg-black text-lime-300 left-0 top-1/2 transform-translate-y-1/2 z-10 rounded hover: bg-gray-800 ">
+          ◀
+        </button>
+            <div ref={popularRef}
+            className="overflow-x-auto  bg-gray-300 rounded shadow px-2"
             style={{ width: '1400px' }}> Popular:
               <div className="flex space-x-4 flex-nowrap"> 
                 {popPeople.filter((peeps) => !peeps.adult).map((peeps) => (
@@ -109,7 +125,11 @@ const [popPeople, setPopPeople] = useState([]);
                 </Link>
                 </div>
           </div>
-        
+ <button onClick={() =>scrollRight(popularRef)} className=" absolute p-2 bg-black text-lime-300 right-0 top-1/2 transform-translate-y-1/2 z-10  rounded hover: bg-gray-800" >
+          ▶
+        </button>
+          
+        </div>
       </main>
       
       </div>
