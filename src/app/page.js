@@ -14,10 +14,36 @@ const [movies, setMovies] = useState([]);
 const [bgmovies, setBGMovies] = useState([]);
 const [randmovies, setRandMovies] = useState([])
 const [tv, setTV] = useState([]);
+const [seasonMovies, setSeasonMovies] = useState([])
+const seasonalRef = useRef(null)
 const nowPlayingRef = useRef(null)
 const nowAiringRef = useRef(null)
 
 
+const getSeasonalID = () =>{
+  const month = new Date().getMonth() + 1;
+  if(month == 10) return 3335
+  if(month == 11) return 4543
+  if(month == 12) return 207317
+  if(month == 2) return 160404
+  if(month == 4) return 9921
+  return '0'
+}
+
+
+ useEffect(() => {
+        const fetchSeasonMovie = async () => {
+          try {
+            const keyword_id = getSeasonalID();
+            const response = await fetch(`https://api.themoviedb.org/3/keyword/${keyword_id}/movies?api_key=${API_KEY}`);
+            const data = await response.json();
+            setSeasonMovies(data.results); 
+          } catch (error) {
+            console.error('Error fetching movies:', error);
+          }
+        };
+        fetchSeasonMovie();
+      }, []);
 
       useEffect(() => {
         const fetchMovie = async () => {
@@ -140,16 +166,57 @@ const nowAiringRef = useRef(null)
     <section className="bg-[#DDF6D2]">
     <div className="text-black font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-[30px] row-start-2 items-center sm:items-start">
+
+  <div className="relative">
+        <button onClick={() =>scrollLeft(seasonalRef)} className=" absolute p-2 bg-black text-lime-300 left-0 top-1/2 transform-translate-y-1/2 z-10 rounded hover: bg-gray-800 ">
+          ◀
+        </button>
+            <div ref={seasonalRef}
+            className="overflow-x-auto  bg-[#EBD2F6] rounded shadow scrollbar-hide"
+            style={{ scrollBehavior:'smooth', width:'1400px' }}>Holiday Movies: 
+              <div className="flex space-x-4 flex-nowrap bg-[#EBD2F6] rounded shadow px-2"> 
+                {seasonMovies.map((movies) => (
+                  <div key={movies.id} className="flex-shrink-0 w-48 text-center bg-[#EBD2F6] rounded shadow">
+              <Link href={`./Media/${movies.id}`} key={movies.id}>
+              <img
+              src={`https://image.tmdb.org/t/p/w500${movies.poster_path}`}
+              alt={movies.title}
+              width={192}
+              height={288}
+              className="rounded shadow mx-auto bg-gray-300"
+              />
+              </Link>
+              <h2 className="text-lg font-bold mb-2">{movies.title}</h2>
+              </div>
+
+                ))}
+                <Link href={"/MoreMovie/MoreNowPlaying"}>
+                <div className="flex-shrink-0 w-48 h-[288px] text-lime-300 bg-black rounded shadow text-center flex items-center justify-center">
+                  Show More
+                  </div>
+                </Link>
+
+
+                </div>
+                
+          </div>
+
+          
+                  <button onClick={() =>scrollRight(seasonalRef)} className=" absolute p-2 bg-black text-lime-300 right-0 top-1/2 transform-translate-y-1/2 z-10  rounded hover: bg-gray-800" >
+          ▶
+        </button>
+          </div>
+                
         <div className="relative">
         <button onClick={() =>scrollLeft(nowPlayingRef)} className=" absolute p-2 bg-black text-lime-300 left-0 top-1/2 transform-translate-y-1/2 z-10 rounded hover: bg-gray-800 ">
           ◀
         </button>
             <div ref={nowPlayingRef}
-            className="overflow-x-auto  bg-[#c3b8c7] rounded shadow scrollbar-hide"
+            className="overflow-x-auto  bg-[#EBD2F6] rounded shadow scrollbar-hide"
             style={{ scrollBehavior:'smooth', width:'1400px' }}>Now Playing: 
-              <div className="flex space-x-4 flex-nowrap bg-[#c3b8c7] rounded shadow px-2"> 
+              <div className="flex space-x-4 flex-nowrap bg-[#EBD2F6] rounded shadow px-2"> 
                 {movies.map((movie) => (
-                  <div key={movie.id} className="flex-shrink-0 w-48 text-center bg-[#c3b8c7] rounded shadow">
+                  <div key={movie.id} className="flex-shrink-0 w-48 text-center bg-[#EBD2F6] rounded shadow">
               <Link href={`./Media/${movie.id}`} key={movie.id}>
               <img
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -177,16 +244,17 @@ const nowAiringRef = useRef(null)
           ▶
         </button>
           </div>
+
                  <div className="relative">
         <button onClick={() =>scrollLeft(nowAiringRef)} className=" absolute p-2 bg-black text-lime-300 left-0 top-1/2 transform-translate-y-1/2 z-10  rounded hover: bg-gray-800">
           ◀
         </button>
            <div ref={nowAiringRef}
-           className="overflow-x-auto bg-[#c3b8c7] rounded shadow px-2"
+           className="overflow-x-auto bg-[#EBD2F6] rounded shadow px-2"
             style={{ scrollBehavior: 'smooth',width:'1400px' }}>Airing Today: 
-              <div className="flex space-x-4 flex-nowrap bg-[#c3b8c7] rounded shadow"> 
+              <div className="flex space-x-4 flex-nowrap bg-[#EBD2F6] rounded shadow"> 
                 {tv.map((TV) => (
-                  <div key={TV.id} className="flex-shrink-0 w-48 text-center bg-[#c3b8c7] rounded shadow">
+                  <div key={TV.id} className="flex-shrink-0 w-48 text-center bg-[#EBD2F6] rounded shadow">
               <Link href={`./Television/${TV.id}`} key={TV.id}>
               <img
               src={`https://image.tmdb.org/t/p/w500${TV.poster_path}`}
