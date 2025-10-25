@@ -10,7 +10,7 @@ export default function nowPlaying(){
     const [page, setPage] = useState(1);
     
     const [query, setQuery] = useState('');
-    const [tv, setTV] = useState([]);
+    const [movie, setMovies] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
     const router = useRouter();
     const [loading, setloading] = useState(false);
@@ -24,14 +24,26 @@ export default function nowPlaying(){
         setPage(1);
     }, []);
 
+const getSeasonalID = () =>{
+  const month = new Date().getMonth() + 1;
+  if(month == 10) return 3335
+  if(month == 11) return 4543
+  if(month == 12) return 207317
+  if(month == 2) return 160404
+  if(month == 4) return 9921
+  return '0'
+}
+
+
     useEffect(() => {
         
         const fetchData = async () => {
            setloading(true);
             try{
-            const res = await fetch(`https://api.themoviedb.org/3/tv/top_rated?api_key=${API_KEY}&page=${page}`);
+            const keyword_id = getSeasonalID();
+            const res = await fetch(`https://api.themoviedb.org/3/keyword/${keyword_id}/movies?api_key=${API_KEY}&page=${page}`);
             const data = await res.json();
-            setTV(data.results);
+            setMovies(data.results);
             setTotalPages(data.total_pages || 1);
             }catch (err) {
                 console.error("Error fetching data:", err);
@@ -104,20 +116,20 @@ export default function nowPlaying(){
             <div className="w-[100%]">
             
             {loading && <p>Loading...</p>}
-            {!loading && tv.length === 0&& <p>No Results Found</p>}
+            {!loading && movie.length === 0&& <p>No Results Found</p>}
             
 
            <div className="grid grid-cols-3 gap-4">
-            {tv.map((item) => (
+            {movie.map((item) => (
                 <div key={item.id} className="text-black text-center">
-                    <h2 className="mt-2 text-sm font-semibold">{item.name}</h2>
+                    <h2 className="mt-2 text-sm font-semibold">{item.title}</h2>
                     <p className="text-xs italic text-gray-500">{item.media_type}</p>
                     <div className="mb-2">
-                   <Link href={`../Television/${item.id}`} key={item.id}>
+                   <Link href={`../Media/${item.id}`} key={item.id}>
                  
                      <img
               src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
-              alt={item.name}
+              alt={item.title}
               width={192}
               height={288}
               className="rounded shadow mx-auto"

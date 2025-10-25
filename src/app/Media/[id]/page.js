@@ -1,5 +1,5 @@
 'use client'
-import React, {useEffect,useState} from "react";
+import React, {useEffect,useState, useRef} from "react";
 import { useRouter ,  useParams } from "next/navigation";
 import Link from "next/link";
 
@@ -24,6 +24,9 @@ export default function Movieinfo() {
     const [crew, setCrew] = useState([]);
     const [rec, setRecommend] = useState([]);
     const router = useRouter();
+    const castRef = useRef(null)
+    const crewRef = useRef(null)
+    const recRef = useRef(null)
     
     
     useEffect(() => {
@@ -139,6 +142,18 @@ export default function Movieinfo() {
   const handleDropDown = () => {
     setMenuOpen(!isMenuOpen);
   };
+
+const scrollLeft = (ref) => {
+    if(ref.current)
+      ref.current.scrollBy({left: -1250, behavior: 'smooth'})
+  }
+
+  const scrollRight = (ref) => {
+    if(ref.current)
+      ref.current.scrollBy({left: 1250, behavior: 'smooth'})
+  }
+
+
 
     return (
          <div className="flex flex-col min-h-screen bg-[#DDF6D2]">
@@ -267,8 +282,13 @@ export default function Movieinfo() {
 
 
               <div className="mt-8 bg-gray-300 rounded shadow px-2">
+                 <div className="relative">
+        <button onClick={() =>scrollLeft(castRef)} className=" absolute p-2 bg-black text-lime-300 left-0 top-1/2 transform-translate-y-1/2 z-10 rounded hover: bg-gray-800 ">
+          ◀
+        </button>
                 <h2 className="text-1 font-bold mb-4 ">Cast</h2>
-                <div className="flex space-x-4 overflow-x-auto ">
+                <div ref={castRef}
+                className="flex space-x-4 overflow-x-auto ">
                {cast.map((peeps) => (
                   <div key={`cast-${peeps.id}-${peeps.job}`} className="flex-shrink-0 w-48 text-center ">
               <Link href={`../Person/${peeps.id}`} key={peeps.id}>
@@ -286,6 +306,12 @@ export default function Movieinfo() {
 
                 ))}
                 </div>
+
+<button onClick={() =>scrollRight(castRef)} className=" absolute p-2 bg-black text-lime-300 right-0 top-1/2 transform-translate-y-1/2 z-10  rounded hover: bg-gray-800" >
+          ▶
+        </button>
+
+                </div>
                 </div>
 
               <div className="flex  gap-6 mt-6 w-full max-w-screen-xl mx-auto">
@@ -298,8 +324,13 @@ export default function Movieinfo() {
               </div>
 
                  <div className="mt-8 bg-gray-300 rounded shadow px-2">
+                           <div className="relative">
+        <button onClick={() =>scrollLeft(crewRef)} className=" absolute p-2 bg-black text-lime-300 left-0 top-1/2 transform-translate-y-1/2 z-10 rounded hover: bg-gray-800 ">
+          ◀
+        </button>
                 <h2 className="text-1 font-bold mb-4">Crew</h2>
-                <div className="flex space-x-4 overflow-x-auto">
+                <div ref={crewRef}
+                className="flex space-x-4 overflow-x-auto">
                {crew.map((peep) => (
                   <div key={`crew-${peep.id}-${peep.job}`} className="flex-shrink-0 w-48 text-center ">
               <Link href={`../Person/${peep.id}`} key={peep.id}>
@@ -317,14 +348,25 @@ export default function Movieinfo() {
 
                 ))}
                 </div>
+
+<button onClick={() =>scrollRight(crewRef)} className=" absolute p-2 bg-black text-lime-300 right-0 top-1/2 transform-translate-y-1/2 z-10  rounded hover: bg-gray-800" >
+          ▶
+        </button>
+
+                </div>
                 </div>
               
               
               
 
               <div className="mt-8 bg-gray-300 rounded shadow px-2">
+                <div className="relative">
+        <button onClick={() =>scrollLeft(recRef)} className=" absolute p-2 bg-black text-lime-300 left-0 top-1/2 transform-translate-y-1/2 z-10 rounded hover: bg-gray-800 ">
+          ◀
+        </button>
                 <h2 className="text-1 font-bold mb-4">Recomendations</h2>
-                <div className="flex space-x-4 overflow-x-auto">
+                <div ref={recRef}
+                className="flex space-x-4 overflow-x-auto">
                {rec.map((recs) => (
                   <div key={recs.id} className="flex-shrink-0 w-48 text-center">
               <Link href={`/Media/${recs.id}`} key={recs.id}>
@@ -341,6 +383,12 @@ export default function Movieinfo() {
               </div>
 
                 ))}
+                </div>
+
+<button onClick={() =>scrollRight(recRef)} className=" absolute p-2 bg-black text-lime-300 right-0 top-1/2 transform-translate-y-1/2 z-10  rounded hover: bg-gray-800" >
+          ▶
+        </button>
+
                 </div>
                 </div>
               

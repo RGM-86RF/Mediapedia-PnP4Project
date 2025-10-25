@@ -95,7 +95,7 @@ export default function searchResults(){
    
 
     return (
-         <div className="flex flex-col min-h-screen">
+         <div className="flex flex-col min-h-screen bg-[#DDF6D2]">
         <header className="flex items-center justify-between px-4 py-2 bg-[#333333]">
             <div className="text-lime-300 font-bold text-1"><a href="http://localhost:3000/">Mediapedia</a></div>
            <form onSubmit={handleSubmit} className="flex-1 mx-4">
@@ -203,7 +203,7 @@ export default function searchResults(){
               className="rounded shadow mx-auto"
               />
               ) : (
-                 <div className="w-48 h-72 bg-gray-100 flex items-center justify-center text-gray-700 rounded mx-auto">
+                 <div className="w-48 h-72 bg-gray-100 flex items-center justify-center text-gray-700 rounded shadow mx-auto">
               No image
             </div>
               )}

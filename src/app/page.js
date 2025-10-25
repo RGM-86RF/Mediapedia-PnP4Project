@@ -172,11 +172,11 @@ const getSeasonalID = () =>{
           ◀
         </button>
             <div ref={seasonalRef}
-            className="overflow-x-auto  bg-[#EBD2F6] rounded shadow scrollbar-hide"
+            className="overflow-x-auto  bg-gray-300 rounded shadow scrollbar-hide"
             style={{ scrollBehavior:'smooth', width:'1400px' }}>Holiday Movies: 
-              <div className="flex space-x-4 flex-nowrap bg-[#EBD2F6] rounded shadow px-2"> 
+              <div className="flex space-x-4 flex-nowrap bg-gray-300 rounded shadow px-2"> 
                 {seasonMovies.map((movies) => (
-                  <div key={movies.id} className="flex-shrink-0 w-48 text-center bg-[#EBD2F6] rounded shadow">
+                  <div key={movies.id} className="flex-shrink-0 w-48 text-center bg-gray-300 rounded shadow">
               <Link href={`./Media/${movies.id}`} key={movies.id}>
               <img
               src={`https://image.tmdb.org/t/p/w500${movies.poster_path}`}
@@ -190,7 +190,7 @@ const getSeasonalID = () =>{
               </div>
 
                 ))}
-                <Link href={"/MoreMovie/MoreNowPlaying"}>
+                <Link href={"/MoreMovie/MoreSeasonal"}>
                 <div className="flex-shrink-0 w-48 h-[288px] text-lime-300 bg-black rounded shadow text-center flex items-center justify-center">
                   Show More
                   </div>
@@ -199,6 +199,7 @@ const getSeasonalID = () =>{
 
                 </div>
                 
+              
           </div>
 
           
@@ -212,11 +213,11 @@ const getSeasonalID = () =>{
           ◀
         </button>
             <div ref={nowPlayingRef}
-            className="overflow-x-auto  bg-[#EBD2F6] rounded shadow scrollbar-hide"
+            className="overflow-x-auto  bg-gray-300 rounded shadow scrollbar-hide"
             style={{ scrollBehavior:'smooth', width:'1400px' }}>Now Playing: 
-              <div className="flex space-x-4 flex-nowrap bg-[#EBD2F6] rounded shadow px-2"> 
+              <div className="flex space-x-4 flex-nowrap bg-gray-300 rounded shadow px-2"> 
                 {movies.map((movie) => (
-                  <div key={movie.id} className="flex-shrink-0 w-48 text-center bg-[#EBD2F6] rounded shadow">
+                  <div key={movie.id} className="flex-shrink-0 w-48 text-center bg-gray-300 rounded shadow">
               <Link href={`./Media/${movie.id}`} key={movie.id}>
               <img
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -250,11 +251,11 @@ const getSeasonalID = () =>{
           ◀
         </button>
            <div ref={nowAiringRef}
-           className="overflow-x-auto bg-[#EBD2F6] rounded shadow px-2"
+           className="overflow-x-auto bg-gray-300 rounded shadow px-2"
             style={{ scrollBehavior: 'smooth',width:'1400px' }}>Airing Today: 
-              <div className="flex space-x-4 flex-nowrap bg-[#EBD2F6] rounded shadow"> 
+              <div className="flex space-x-4 flex-nowrap bg-gray-300 rounded shadow"> 
                 {tv.map((TV) => (
-                  <div key={TV.id} className="flex-shrink-0 w-48 text-center bg-[#EBD2F6] rounded shadow">
+                  <div key={TV.id} className="flex-shrink-0 w-48 text-center bg-gray-300 rounded shadow">
               <Link href={`./Television/${TV.id}`} key={TV.id}>
               <img
               src={`https://image.tmdb.org/t/p/w500${TV.poster_path}`}

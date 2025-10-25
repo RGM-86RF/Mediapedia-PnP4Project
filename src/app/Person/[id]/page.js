@@ -1,5 +1,5 @@
 'use client'
-import React, {useEffect,useState} from "react";
+import React, {useEffect,useState, useRef} from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -19,7 +19,9 @@ export default function Movieinfo() {
     const [crew, setCrew] = useState([]);
     const [loading, setloading] = useState(false);
     const router = useRouter();
-    
+    const castRef = useRef(null)
+    const crewRef = useRef(null)
+   
     
     useEffect(() => {
         if(!id) return;
@@ -85,12 +87,20 @@ export default function Movieinfo() {
 
   };
 
-  const movies = cast.filter((item) => item.media_type === 'movie')
-  const TV = cast.filter((item) => item.media_type === 'tv')
 
   const handleDropDown = () => {
     setMenuOpen(!isMenuOpen);
   };
+
+  const scrollLeft = (ref) => {
+    if(ref.current)
+      ref.current.scrollBy({left: -1450, behavior: 'smooth'})
+  }
+
+  const scrollRight = (ref) => {
+    if(ref.current)
+      ref.current.scrollBy({left: 1450, behavior: 'smooth'})
+  }
 
     return (
          <div className="flex flex-col min-h-screen bg-[#DDF6D2]">
@@ -125,18 +135,19 @@ export default function Movieinfo() {
           <Link href={"/People"}>People</Link>
         </nav>
 
-        <main className="mt-20 px-6 pb-10 flex-grow">
-        <div key={person.id} className="p-10 w-250 text-black ">
+        <main className="mt-20 px-6 pb-10 w-full">
+        <div key={person.id} className="p-10 w-250 text-black w-auto ">
             <h1 className="text-lg font-bold mb-2">{person.name}</h1>
+            <div className="flex flex-col lg:flex-row gap-6 bg-gray-300 rounded shadow py-2 px-2">
              <img
               src={`https://image.tmdb.org/t/p/w500${person.profile_path}`}
               alt={person.name}
               width={250}
               height={550}
-              className="rounded shadow"
+              className="rounded shadow "
               />
                <div className="flex flex-col lg:flex-row gap-6 mt-6 w-full max-w-screen-xl mx-auto">
-              <div className=" flex-grow bg-gray-300 rounded shadow mx-auto">
+              <div className=" flex-grow bg-gray-300  mx-auto">
               <p className="mt-4 text-lg font-bold text-decleration-line: underline">Known For:</p>
               <p className="text-lg bg-gray-300">{person.known_for_department}</p>
               <p className="mt-4 text-lg font-bold text-decleration-line: underline">Overview:</p>
@@ -144,9 +155,17 @@ export default function Movieinfo() {
               </div>
               </div>
 
+              </div>
+
               <div className="mt-8 bg-gray-300 rounded shadow px-2">
+                 <div className="relative">
+        <button onClick={() =>scrollLeft(castRef)} className=" absolute p-2 bg-black text-lime-300 left-0 top-1/2 transform-translate-y-1/2 z-10 rounded hover: bg-gray-800 ">
+          ◀
+        </button>
                 <h2 className="text-1 font-bold mb-4 ">Cast</h2>
-                <div className="flex space-x-4 overflow-x-auto ">
+                <div ref={castRef}
+                className="flex space-x-4 overflow-x-auto "
+                >
                {cast.filter((peeps) => !peeps.adult).map((peeps) => (
                   <div key={`movies-${peeps.id}-${peeps.character}`} className="flex-shrink-0 w-48 text-center ">
               <Link href={peeps.media_type === 'movie' ? `../Media/${peeps.id}` : ` ../Television/${peeps.id}`} key={peeps.id}>
@@ -165,11 +184,20 @@ export default function Movieinfo() {
 
                 ))}
                 </div>
+<button onClick={() =>scrollRight(castRef)} className=" absolute p-2 bg-black text-lime-300 right-0 top-1/2 transform-translate-y-1/2 z-10  rounded hover: bg-gray-800" >
+          ▶
+        </button>
+                </div>
                 </div>
 
                 <div className="mt-8 bg-gray-300 rounded shadow px-2">
+                      <div className="relative">
+        <button onClick={() =>scrollLeft(crewRef)} className=" absolute p-2 bg-black text-lime-300 left-0 top-1/2 transform-translate-y-1/2 z-10 rounded hover: bg-gray-800 ">
+          ◀
+        </button>
                 <h2 className="text-1 font-bold mb-4">Crew</h2>
-                <div className="flex space-x-4 overflow-x-auto">
+                <div ref={crewRef}
+              className="flex space-x-4 overflow-x-auto">
                {crew.map((jobs) => (
                   <div key={`crew-${jobs.id}-${jobs.job}`} className="flex-shrink-0 w-48 text-center ">
               <Link href={
@@ -188,6 +216,11 @@ export default function Movieinfo() {
               </div>
 
                 ))}
+                </div>
+
+                <button onClick={() =>scrollRight(crewRef)} className=" absolute p-2 bg-black text-lime-300 right-0 top-1/2 transform-translate-y-1/2 z-10  rounded hover: bg-gray-800" >
+          ▶
+        </button>
                 </div>
                 </div>
               

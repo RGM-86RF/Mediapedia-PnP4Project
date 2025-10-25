@@ -29,7 +29,7 @@ export default function nowPlaying(){
         const fetchData = async () => {
            setloading(true);
             try{
-            const res = await fetch(`https://api.themoviedb.org/3/tv/top_rated?api_key=${API_KEY}&page=${page}`);
+            const res = await fetch(`https://api.themoviedb.org/3/tv/airing_today?api_key=${API_KEY}&page=${page}`);
             const data = await res.json();
             setTV(data.results);
             setTotalPages(data.total_pages || 1);
